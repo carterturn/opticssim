@@ -1,0 +1,29 @@
+Optics Simulator
+================
+
+This is an optical process simulator, capable of simulating the movement of light through various media.
+It should be capable of replicating optical phenomena on all scales, including phenomena such as diffraction.
+
+Installing
+==========
+
+This library uses cmake.
+You may need to make adjustments on a non-Posix system to build.
+To build and install use:
+
+mkdir build && cd build
+cmake ..
+make
+sudo make install
+
+Dependancies
+============
+
+If you build with -DGRAPHICS=1, which provides a graphical interface to the software, you will need:
+-OpenGL
+-GLFW
+
+License
+=======
+
+Copyright 2016 Yoni Lerner and Carter Turnbaugh
