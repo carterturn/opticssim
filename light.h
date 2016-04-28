@@ -4,12 +4,12 @@
 
 class light {
 public:
-light(tsvector origin) : origin(origin){}
+light(tsvector origin, mpf_class wavelength) : origin(origin), freq(wavelength){}
 	
 	virtual bool is_valid() = 0;
 	virtual bool interact() = 0;
 
-	virtual int calculate() = 0;
+	virtual int calculate(std::vector<*object> objects) = 0;
 
 #ifdef GRAPHICS
 	virtual void draw() = 0;
@@ -17,4 +17,5 @@ light(tsvector origin) : origin(origin){}
 
 protected:
 	tsvector origin;
+	mpf_class wavelength;
 };
