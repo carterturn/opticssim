@@ -16,12 +16,16 @@ vector2d(mpf_class x, mpf_class y) : x(x), y(y){}
 
 	vector2d operator* (const mpf_class& scalar);
 
+	mpf_class abs();
+
 protected:
 	mpf_class x;
 	mpf_class y;
 
 
 };
+
+mpf_class abs(vector2d input);
 
 class clock{
 public:
