@@ -52,7 +52,7 @@ void photon::draw(){
 	glVertex3f(origin.x.get_d(), origin.y.get_d(), origin.z.get_d());
 	glVertex3f(destination.x.get_d(), destination.y.get_d(), destination.z.get_d());
 
-	glEnd(GL_LINES);
+	glEnd();
 
 	for(int i = 0; i < next_bundles.size(); i++){
 		next_bundles[i]->draw();

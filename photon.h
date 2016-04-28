@@ -10,8 +10,16 @@ photon(tsvector origin, tsvector destination, mpf_class wavelength) : destinatio
 	}
 	~photon();
 
+	bool is_valid();
+
+	int calculate(std::vector<object*> objects);
+
 	std::vector<photon*> get_paths();
 	photon * get_best_path();
+
+#ifdef GRAPHICS
+	void draw();
+#endif
 	
 protected:
 	std::vector<photon*> next_bundles;
