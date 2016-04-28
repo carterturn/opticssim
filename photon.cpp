@@ -20,7 +20,7 @@ bool photon::is_valid(){
 
 
 
-int photon::calculate(vector<*object> objects){
+int photon::calculate(vector<object*> objects){
 
 	// Normalized vector from the origin to the destination
 	tsvector step_vector = (destination - origin);

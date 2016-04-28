@@ -3,8 +3,8 @@ project (opticssim)
 
 #Local libraries
 add_library(vector tsvector.cpp)
-add_library(light photon.cpp)
-add_library(object object.cpp material.cpp)
+add_library(qed photon.cpp clock.cpp vector2d.cpp)
+#add_library(object)
 
 add_definitions(--std=c++11) #Cause vectors
 
@@ -23,12 +23,12 @@ foreach(test_file ${TEST_SOURCES})
   string(REPLACE ".cpp" "" test_name ${test})
   add_executable(${test_name} ${test_file})
   target_link_libraries(${test_name} vector)
-  target_link_libraries(${test_name} light)
-  target_link_libraries(${test_name} object)
+  target_link_libraries(${test_name} qed)
+#  target_link_libraries(${test_name} object)
   if(GRAPHICS)
-    target_link_libraries(lep GL)
-    target_link_libraries(lep glfw)
-    target_link_libraries(lep ftgl)
+    target_link_libraries(${test_name} GL)
+    target_link_libraries(${test_name} glfw)
+    target_link_libraries(${test_name} ftgl)
 
   endif(GRAPHICS)
 endforeach(test_file ${TEST_SOURCES})
