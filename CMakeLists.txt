@@ -3,7 +3,7 @@ project (opticssim)
 
 #Local libraries
 add_library(vector tsvector.cpp)
-add_library(light light.cpp photon.cpp)
+add_library(light photon.cpp)
 add_library(object object.cpp material.cpp)
 
 add_definitions(--std=c++11) #Cause vectors
