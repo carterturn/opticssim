@@ -29,10 +29,11 @@ int main(int argc, char * argv[]){
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
 	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
 	cout << b.inside(tsvector(0.5, 2.5, 0)) << "\n";
-	cout << b.inside(tsvector(0.5, 0, 0)) << "\n";
+	cout << b.inside(tsvector(0.5, 0, 0.6)) << "\n";
 	cout << b.inside(tsvector(0, 2.5, 0.5)) << "\n";
 
-	tsvector a = b.get_reflected(tsvector(0.5, 1.5, 0));
+	tsvector target = tsvector(0.5, 0, 0.5);
+	tsvector a = b.get_reflected(target);
 	cout << a.x.get_d() << ", " << a.y.get_d() << ", " << a.z.get_d() << "\n";
 
 #ifdef GRAPHICS
@@ -58,7 +59,7 @@ int main(int argc, char * argv[]){
 		glBegin(GL_LINES);
 		glColor3f(0.0f, 0.0f, 1.0f);
 
-		tsvector(0.5, 1.5, 0).draw();
+		(target + tsvector(0.1, 0, 0)).draw();
 		a.draw();
 
 		glEnd();

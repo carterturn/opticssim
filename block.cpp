@@ -21,12 +21,19 @@ tsvector block::get_surface_normal(tsvector point){
 	local_pos.y = local_pos.y / dim.y;
 	local_pos.z = local_pos.z / dim.z;
 
-	if(local_pos.x > dim.x / 4.0) return point + tsvector(1, 0, 0);
-	if(local_pos.x < dim.x / -4.0) return point + tsvector(-1, 0, 0);
-	if(local_pos.y > dim.y / 4.0) return point + tsvector(0, 1, 0);
-	if(local_pos.y < dim.y / -4.0) return point + tsvector(0, -1, 0);
-	if(local_pos.z > dim.z / 4.0) return point + tsvector(0, 0, 1);
-	if(local_pos.z < dim.z / -4.0) return point + tsvector(0, 0, -1);
+	if(abs(local_pos.x) > abs(local_pos.z)){
+		if(abs(local_pos.x) > abs(local_pos.y)){
+			if(local_pos.x > 0.25) return point + tsvector(1, 0, 0);
+			if(local_pos.x < -0.25) return point + tsvector(-1, 0, 0);
+		}
+		if(abs(local_pos.y) > abs(local_pos.z)){
+			if(local_pos.y > 0.25) return point + tsvector(0, 1, 0);
+			if(local_pos.y < -0.25) return point + tsvector(0, -1, 0);
+		}
+	}
+	if(local_pos.z > 0.25) return point + tsvector(0, 0, 1);
+	if(local_pos.z < -0.25) return point + tsvector(0, 0, -1);
+	return tsvector(); // If you are the center, you get a zero vector
 }
 
 #ifdef GRAPHICS
