@@ -10,8 +10,12 @@ public:
 
 	virtual std::vector<tsvector> get_points(mpf_class density) = 0;
 
-	virtual tsvector get_reflected(int point) = 0;
-	virtual tsvector get_transmitted(int point) = 0;
+	virtual tsvector get_reflected(tsvector point) = 0;
+	virtual tsvector get_transmitted(tsvector point) = 0;
 
 	virtual bool inside(tsvector point) = 0;
+
+#ifdef GRAPHICS
+	virtual void draw() = 0;
+#endif
 };
