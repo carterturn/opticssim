@@ -24,13 +24,16 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(1.57, 0, 0));
+	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 1.0, 0.0);
 
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
 	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
 	cout << b.inside(tsvector(0.5, 2.5, 0)) << "\n";
 	cout << b.inside(tsvector(0.5, 0, 0)) << "\n";
 	cout << b.inside(tsvector(0, 2.5, 0.5)) << "\n";
+
+	tsvector a = b.get_reflected(tsvector(0.5, 1.5, 0));
+	cout << a.x.get_d() << ", " << a.y.get_d() << ", " << a.z.get_d() << "\n";
 
 #ifdef GRAPHICS
 	while(true){
@@ -51,6 +54,14 @@ int main(int argc, char * argv[]){
 		glColor3f(0.0f, 1.0f, 0.0f);
 	
 		b.draw();
+
+		glBegin(GL_LINES);
+		glColor3f(0.0f, 0.0f, 1.0f);
+
+		tsvector(0.5, 1.5, 0).draw();
+		a.draw();
+
+		glEnd();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
