@@ -6,14 +6,6 @@
 
 using namespace std;
 
-tsvector block::get_reflected(tsvector point){
-	return get_surface_normal(point) * reflectance;
-}
-
-tsvector block::get_transmitted(tsvector point){
-	return get_surface_normal(point) * transmittance;
-}
-
 tsvector block::get_surface_normal(tsvector point){
 	tsvector local_pos = point - center;
 	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());

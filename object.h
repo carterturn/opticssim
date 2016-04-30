@@ -10,8 +10,8 @@ object(mpf_class reflectance, mpf_class transmittance) : material(reflectance, t
 
 	virtual std::vector<tsvector> get_points(mpf_class density) = 0;
 
-	virtual tsvector get_reflected(tsvector point) = 0;
-	virtual tsvector get_transmitted(tsvector point) = 0;
+	tsvector get_reflected(tsvector point);
+	tsvector get_transmitted(tsvector point);
 
 	virtual tsvector get_surface_normal(tsvector point) = 0;
 
