@@ -7,18 +7,34 @@
 using namespace std;
 
 tsvector block::get_reflected(tsvector point){
-
+	return get_surface_normal(point) * reflectance;
 }
 
 tsvector block::get_transmitted(tsvector point){
+	return get_surface_normal(point) * transmittance;
+}
 
+tsvector block::get_surface_normal(tsvector point){
+	tsvector local_pos = point - center;
+	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
+	local_pos.x = local_pos.x / dim.x;
+	local_pos.y = local_pos.y / dim.y;
+	local_pos.z = local_pos.z / dim.z;
+
+	if(local_pos.x > dim.x / 4.0) return point + tsvector(1, 0, 0);
+	if(local_pos.x < dim.x / -4.0) return point + tsvector(-1, 0, 0);
+	if(local_pos.y > dim.y / 4.0) return point + tsvector(0, 1, 0);
+	if(local_pos.y < dim.y / -4.0) return point + tsvector(0, -1, 0);
+	if(local_pos.z > dim.z / 4.0) return point + tsvector(0, 0, 1);
+	if(local_pos.z < dim.z / -4.0) return point + tsvector(0, 0, -1);
 }
 
 #ifdef GRAPHICS
 void block::draw(){
 	glBegin(GL_POINTS);
 
-	vector<tsvector> points = get_points(dim.x);
+	mpf_class spacing = min(min(dim.x, dim.y), dim.z);
+	vector<tsvector> points = get_points(spacing);
 	for(int i = 0; i < points.size(); i++){
 		points[i].draw();
 	}
