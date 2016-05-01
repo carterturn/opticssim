@@ -24,7 +24,7 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	convexsphere s = convexsphere(tsvector(), 15, 9, tsvector(0, 0, 0), 1.0, 0.0);
+	convexsphere s = convexsphere(tsvector(), 15, 9, tsvector(0, 1.57, 0), 1.0, 0.0);
 
 	cout << s.inside(tsvector(0, 2, 0)) << "\n";
 	cout << s.inside(tsvector(1, 0, 0)) << "\n";
@@ -32,9 +32,9 @@ int main(int argc, char * argv[]){
 	cout << s.inside(tsvector(0.5, 0, 0.6)) << "\n";
 	cout << s.inside(tsvector(0, 2.5, 0.5)) << "\n";
 
-	tsvector target = tsvector(0.7, 3, 0);
+	tsvector target = tsvector(0, 0, 1);
 	tsvector a = s.get_reflected(target);
-	cout << a.x.get_d() << ", " << a.y.get_d() << ", " << a.z.get_d() << "\n";
+	cout << (a - target).x.get_d() << ", " << (a - target).y.get_d() << ", " << (a - target).z.get_d() << "\n";
 	cout << (a - target).abs().get_d() << "\n";
 
 #ifdef GRAPHICS
