@@ -32,7 +32,7 @@ int main(int argc, char * argv[]){
 	cout << s.inside(tsvector(0.5, 0, 0.6)) << "\n";
 	cout << s.inside(tsvector(0, 2.5, 0.5)) << "\n";
 
-	tsvector target = tsvector(0, 0, 1);
+	tsvector target = tsvector(-0.6, 3, 0);
 	tsvector a = s.get_reflected(target);
 	cout << (a - target).x.get_d() << ", " << (a - target).y.get_d() << ", " << (a - target).z.get_d() << "\n";
 	cout << (a - target).abs().get_d() << "\n";

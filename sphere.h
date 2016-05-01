@@ -8,9 +8,9 @@ sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_cl
 
 	std::vector<tsvector> get_points(mpf_class density);
 
-	tsvector get_surface_normal(tsvector point);
+	virtual tsvector get_surface_normal(tsvector point) = 0;
 
-	bool inside(tsvector point);
+	virtual bool inside(tsvector point) = 0;
 
 #ifdef GRAPHICS
 	void draw();
