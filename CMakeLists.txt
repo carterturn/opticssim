@@ -19,7 +19,7 @@ endif(GRAPHICS)
 
 #tests
 if(TESTS)
-  set(test_sources test_block.cpp test_convexsphere.cpp test_concavesphere.cpp)
+  set(test_sources test_block.cpp test_convexsphere.cpp test_concavesphere.cpp test_qed.cpp)
   foreach(test_file ${test_sources})
     message(STATUS "Included test ${test_file}")
     string(REPLACE ".cpp" "" test_name ${test_file})
