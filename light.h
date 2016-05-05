@@ -12,7 +12,7 @@ light(tsvector origin, mpf_class wavelength) : origin(origin), wavelength(wavele
 	virtual bool is_valid() = 0;
 
 	// Determines the path of the light
-	virtual int calculate(std::vector<object*> objects) = 0;
+	virtual int calculate(std::vector<object*> objects, mpf_class density, int depth) = 0;
 
 #ifdef GRAPHICS
 	// Draws the light (however the thing wants)

@@ -20,8 +20,12 @@ bool photon::is_valid(){
 
 
 
-int photon::calculate(vector<object*> objects){
-
+int photon::calculate(vector<object*> objects, mpf_class density, int depth){
+	for(int i = next_bundles.size(); i > 0; i--){ // Iterating backwards makes more efficient
+		delete next_bundles[i];
+		next_bundles.erase(next_bundles.begin()+i);
+	}
+	
 	// Normalized vector from the origin to the destination
 	tsvector step_vector = (destination - origin);
 	step_vector = step_vector * (cnst::precision / sqrt(step_vector * step_vector));
@@ -32,16 +36,37 @@ int photon::calculate(vector<object*> objects){
 	while(abs(ray_vector) < abs(destination - origin) && path_valid){
 		ray_vector = ray_vector + step_vector; // Move forward step_vector
 
+		if(abs(ray_vector) > abs(destination - origin)){
+			if(depth > 0){
+				for(int i = 0; i < objects.size(); i++){
+					vector<tsvector> next_targets = objects[i]->get_points(density);
+					for(int j = 0; j < next_targets.size(); j++){
+						next_bundles.push_back(new photon(destination, next_targets[i], wavelength));
+					}
+				}
+			}
+		}
+
 		for(int i = 0; i < objects.size(); i++){
 			if(objects[i]->inside(origin + ray_vector)){
 				path_valid = false;
 				break;
 			}
 		}
-
 		
 	}
 
+	mpf_class destination_turn = abs(destination - origin) / wavelength;
+	turn(destination_turn);
+
+	for(int i = 0; i < next_bundles.size(); i++){
+		next_bundles[i]->turn(destination_turn);
+	}
+	for(int i = 0; i < next_bundles.size(); i++){
+		next_bundles[i]->calculate(objects, density, depth - 1);
+	}
+	
+	return 0;
 }
 
 #ifdef GRAPHICS
