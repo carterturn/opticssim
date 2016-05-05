@@ -15,4 +15,6 @@ namespace cnst{
 
 	// Simulation specific constants
 	extern mpf_class precision;
+
+	extern mpf_class epsilon;
 };
