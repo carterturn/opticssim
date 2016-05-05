@@ -28,20 +28,23 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 	
 	// Normalized vector from the origin to the destination
 	tsvector step_vector = (destination - origin);
-	step_vector = step_vector * (cnst::precision / sqrt(step_vector * step_vector));
+	if(step_vector.abs() < cnst::epsilon){
+		path_valid = false;
+		return -1;
+	}
+	step_vector = step_vector * density * (cnst::precision / sqrt(step_vector * step_vector));
 
 	tsvector ray_vector;
 
 	// While the ray_vector is shorter than the distance from destination to origin
 	while(abs(ray_vector) < abs(destination - origin) && path_valid){
 		ray_vector = ray_vector + step_vector; // Move forward step_vector
-
-		if(abs(ray_vector) > abs(destination - origin)){
+		if(abs(ray_vector) >= abs(destination - origin)){
 			if(depth > 0){
 				for(int i = 0; i < objects.size(); i++){
 					vector<tsvector> next_targets = objects[i]->get_points(density);
 					for(int j = 0; j < next_targets.size(); j++){
-						next_bundles.push_back(new photon(destination, next_targets[i], wavelength));
+						next_bundles.push_back(new photon(destination, next_targets[j], wavelength));
 					}
 				}
 			}
@@ -50,7 +53,7 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 		for(int i = 0; i < objects.size(); i++){
 			if(objects[i]->inside(origin + ray_vector)){
 				path_valid = false;
-				break;
+				return 1;
 			}
 		}
 		
@@ -80,7 +83,9 @@ void photon::draw(){
 	glEnd();
 
 	for(int i = 0; i < next_bundles.size(); i++){
-		next_bundles[i]->draw();
+		if(next_bundles[i]->is_valid()){
+			next_bundles[i]->draw();
+		}
 	}
 }
 #endif
