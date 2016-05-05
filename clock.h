@@ -32,7 +32,7 @@ public:
 clock(mpf_class angle) : angle(angle){}
 
 	static mpf_class get_angle(mpf_class wavelength, mpf_class distance);
-	void turn(mpf_class angle);
+	void turn(mpf_class delta_angle);
 
 	vector2d get_arrow();
 
