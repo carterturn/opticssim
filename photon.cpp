@@ -9,8 +9,8 @@
 using namespace std;
 
 photon::~photon(){
-	for(int i = 0; i < next_bundles.size(); i++){
-		delete next_bundles[i];
+	for(int i = 0; i < next_nodes.size(); i++){
+		delete next_nodes[i];
 	}
 }
 
@@ -21,9 +21,9 @@ bool photon::is_valid(){
 
 
 int photon::calculate(vector<object*> objects, mpf_class density, int depth){
-	for(int i = next_bundles.size(); i > 0; i--){ // Iterating backwards makes more efficient
-		delete next_bundles[i];
-		next_bundles.erase(next_bundles.begin()+i);
+	for(int i = next_nodes.size(); i > 0; i--){ // Iterating backwards makes more efficient
+		delete next_nodes[i];
+		next_nodes.erase(next_nodes.begin()+i);
 		next_depth.erase(next_depth.begin()+i);
 	}
 	
@@ -45,7 +45,15 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 				for(int i = 0; i < objects.size(); i++){
 					vector<tsvector> next_targets = objects[i]->get_points(density);
 					for(int j = 0; j < next_targets.size(); j++){
-						next_bundles.push_back(new photon(destination, objects[i], next_targets[j], wavelength));
+						mpf_class source_lightspeed = cnst::c;
+						if(get_origin() != NULL) source_lightspeed = get_origin()->get_lightspeed();
+						mpf_class adjusted_wavelength = wavelength * (objects[i]->get_lightspeed() / source_lightspeed);
+						// Apply speed-of-light change if appropriate
+						if(objects[i]->inside(ray_vector - step_vector) !=
+						   objects[i]->inside((next_targets[j] - destination)* density * (cnst::precision / sqrt(step_vector * step_vector)))){
+							adjusted_wavelength = wavelength;
+						}
+						next_nodes.push_back(new photon(destination, objects[i], next_targets[j], adjusted_wavelength));
 						// Limit internal reflections/refractions
 						if(objects[i] == get_origin() && depth > 1) next_depth.push_back(0);
 						else next_depth.push_back(depth - 1);
@@ -66,13 +74,23 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 	mpf_class destination_turn = abs(destination - origin) / wavelength;
 	turn(destination_turn);
 
-	for(int i = 0; i < next_bundles.size(); i++){
-		next_bundles[i]->turn(destination_turn);
+	for(int i = 0; i < next_nodes.size(); i++){
+		next_nodes[i]->turn(destination_turn);
 	}
-	for(int i = 0; i < next_bundles.size(); i++){
-		next_bundles[i]->calculate(objects, density, next_depth[i]);
+	for(int i = 0; i < next_nodes.size(); i++){
+		next_nodes[i]->calculate(objects, density, next_depth[i]);
 	}
 	
+	return 0;
+}
+
+int photon::propagate_probability(mpf_class probability){
+	// Divide by the number of nodes
+	for(int i = 0; i < next_nodes.size(); i++){
+		if(next_nodes[i]->is_valid()){
+			next_nodes[i]->propagate_probability(probability / next_nodes.size());
+		}
+	}
 	return 0;
 }
 
@@ -90,9 +108,9 @@ void photon::draw(){
 
 	glEnd();
 
-	for(int i = 0; i < next_bundles.size(); i++){
-		if(next_bundles[i]->is_valid()){
-			next_bundles[i]->draw();
+	for(int i = 0; i < next_nodes.size(); i++){
+		if(next_nodes[i]->is_valid()){
+			next_nodes[i]->draw();
 		}
 	}
 }
