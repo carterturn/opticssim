@@ -6,7 +6,7 @@
 
 class object : public material{
 public:
-object(mpf_class reflectance, mpf_class transmittance) : material(reflectance, transmittance){}
+object(mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : material(reflectance, transmittance, lightspeed){}
 
 	virtual std::vector<tsvector> get_points(mpf_class density) = 0;
 

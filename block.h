@@ -4,7 +4,7 @@
 
 class block : public object{
 public:
-block(tsvector center, tsvector dim, tsvector rot, mpf_class reflectance, mpf_class transmittance) : center(center), dim(dim), rot(rot), object(reflectance, transmittance){}
+block(tsvector center, tsvector dim, tsvector rot, mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : center(center), dim(dim), rot(rot), object(reflectance, transmittance, lightspeed){}
 	
 	std::vector<tsvector> get_points(mpf_class density);
 

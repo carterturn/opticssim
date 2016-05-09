@@ -1,5 +1,6 @@
 #include "block.h"
 #include "photon.h"
+#include "constant.h"
 #include <vector>
 #include <iostream>
 
@@ -28,7 +29,7 @@ int main(int argc, char * argv[]){
 
 	photon p = photon(tsvector(-5, 0, 0), tsvector(-4, 0, 0), 532e-9_mpf);
 
-	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 1.0, 0.0);
+	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 1.0, 0.0, cnst::c);
 
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
 	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";

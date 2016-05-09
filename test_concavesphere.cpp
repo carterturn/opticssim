@@ -1,4 +1,5 @@
 #include "concavesphere.h"
+#include "constant.h"
 #include <iostream>
 
 #ifdef GRAPHICS
@@ -24,7 +25,7 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	concavesphere s = concavesphere(tsvector(), 15, 9, tsvector(0, 0, 0), 1.0, 0.0);
+	concavesphere s = concavesphere(tsvector(), 15, 9, tsvector(0, 0, 0), 1.0, 0.0, cnst::c);
 
 	cout << s.inside(tsvector(0, 2, 0)) << "\n";
 	cout << s.inside(tsvector(1, 0, 0)) << "\n";

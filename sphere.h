@@ -4,7 +4,7 @@
 
 class sphere : public object {
 public:
-sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance) : center(center), radius(radius), height(height), rot(rot), object(reflectance, transmittance){}
+sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : center(center), radius(radius), height(height), rot(rot), object(reflectance, transmittance, lightspeed){}
 
 	std::vector<tsvector> get_points(mpf_class density);
 

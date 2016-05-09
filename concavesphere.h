@@ -4,7 +4,7 @@
 
 class concavesphere : public sphere {
 public:
-concavesphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance) : sphere(center, radius, height, rot, reflectance, transmittance){}
+concavesphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : sphere(center, radius, height, rot, reflectance, transmittance, lightspeed){}
 
 	tsvector get_surface_normal(tsvector point);
 
