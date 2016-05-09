@@ -8,9 +8,6 @@ class light {
 public:
 light(tsvector origin, mpf_class wavelength) : origin(origin), wavelength(wavelength){}
 
-	// Returns true while the light is in allowed space
-	virtual bool is_valid() = 0;
-
 	// Determines the path of the light
 	virtual int calculate(std::vector<object*> objects, mpf_class density, int depth) = 0;
 
