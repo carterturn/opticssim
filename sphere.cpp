@@ -3,6 +3,7 @@
 
 #ifdef GRAPHICS
 #include <GL/gl.h>
+#include <cmath>
 #endif
 
 using namespace std;

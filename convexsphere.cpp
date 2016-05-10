@@ -1,4 +1,5 @@
 #include "convexsphere.h"
+#include <cmath>
 
 tsvector convexsphere::get_surface_normal(tsvector point){
 	tsvector local_pos = point - center;
