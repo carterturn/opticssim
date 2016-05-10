@@ -1,5 +1,5 @@
 #include "block.h"
-#include "photon.h"
+#include "qed.h"
 #include "constant.h"
 #include <vector>
 #include <iostream>
@@ -27,7 +27,7 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	photon p = photon(tsvector(-5, 0, 0), tsvector(-4, 0, 0), 532e-9_mpf);
+	qed q = qed(tsvector(-5, 0, 0), 532e-9_mpf);
 
 	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 1.0, 0.0, cnst::c);
 
@@ -44,7 +44,7 @@ int main(int argc, char * argv[]){
 	vector<object*> objects = vector<object*>();
 	objects.push_back(&b);
 	
-	cout << p.calculate(objects, 1, 4) << "\n";
+	cout << q.calculate(objects, 1, 4) << "\n";
 	
 #ifdef GRAPHICS
 	while(true){
@@ -75,7 +75,7 @@ int main(int argc, char * argv[]){
 		glEnd();
 
 		glColor3f(1.0f, 1.0f, 1.0f);
-		p.draw();
+		q.draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

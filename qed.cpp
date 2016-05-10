@@ -1,5 +1,6 @@
 #include "qed.h"
-
+#include "constant.h"
+#include <iostream>
 using namespace std;
 
 qed::~qed(){
@@ -15,21 +16,40 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 		initial_photons.erase(initial_photons.begin()+i);
 	}
 
-	mpf_class number_points = 0;
+	vector<object_point> points = vector<object_point>();
+
 	for(int i = 0; i < objects.size(); i++){
-		vector<tsvector> initial_targets = objects[i]->get_points(density);
-		number_points += initial_targets.size();
-		for(int j = 0; j < initial_targets.size(); i++){
-			initial_photons.push_back(new photon(origin, NULL, initial_targets[j], wavelength));
+		vector<tsvector> point_set = objects[i]->get_points(density);
+		for(int j = 0; j < point_set.size(); j++){
+			object_point p;
+			p.obj = objects[j];
+			p.point = point_set[j];
+			points.push_back(p);
+		}
+	}
+
+	for(int i = 0; i < points.size(); i++){
+		initial_photons.push_back(new photon(origin, points[i].point, wavelength));
+		for(int j = 0; j < points.size(); j++){
+			if(i != j){
+				mpf_class lambda = wavelength;
+				if(points[i].obj != NULL && points[i].obj->inside((points[j].point - points[i].point)* (1.0/2.0))){
+					lambda = wavelength * points[i].obj->get_lightspeed() / cnst::c;
+				}
+				initial_photons.push_back(new photon(points[i].point, points[i].obj, points[j].point, wavelength));
+			}
 		}
 	}
 
 	for(int i = 0; i < initial_photons.size(); i++){
-		initial_photons->calculate(objects, density, depth);
+		initial_photons[i]->calculate(objects, density, depth);
 	}
 
 	for(int i = 0; i < initial_photons.size(); i++){
-		initial_photons->propagate_probability(1.0_mpf / number_points);
+		if(!initial_photons[i]->is_valid()){
+			delete initial_photons[i];
+			initial_photons.erase(initial_photons.begin()+i);
+		}
 	}
 
 	return 0;
@@ -38,7 +58,7 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 #ifdef GRAPHICS
 void qed::draw(){
 	for(int i = 0; i < initial_photons.size(); i++){
-		initial_photons->draw();
+		initial_photons[i]->draw();
 	}
 }
 #endif
