@@ -3,7 +3,7 @@ project (opticssim)
 
 #Local libraries
 add_library(core tsvector.cpp constant.cpp)
-add_library(qed photon.cpp clock.cpp vector2d.cpp)
+add_library(qed qed.cpp photon.cpp clock.cpp vector2d.cpp)
 add_library(object object.cpp block.cpp sphere.cpp convexsphere.cpp concavesphere.cpp)
 
 add_definitions(--std=c++11) #Cause vectors
