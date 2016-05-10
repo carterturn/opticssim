@@ -4,6 +4,7 @@
 #include "material.h"
 #include "tsvector.h"
 
+
 class object : public material{
 public:
 object(mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : material(reflectance, transmittance, lightspeed){}
@@ -20,4 +21,9 @@ object(mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : m
 #ifdef GRAPHICS
 	virtual void draw() = 0;
 #endif
+};
+
+struct object_point{
+	object * obj;
+	tsvector point;
 };
