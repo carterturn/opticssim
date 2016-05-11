@@ -21,7 +21,7 @@ ifeq ($(UNAME_S),Darwin)
 	INCLUDES=-I/usr/local/Cellar/glfw3/3.1.2/include -I/opt/X11/include
 	LINKS=-L/usr/local/Cellar/glfw3/3.1.2/lib -lgmp
 	ifeq ($(GRAPHICS),1)
-		LINKS=-L/usr/local/Cellar/glfw3/3.1.2/lib -lgmp -lglfw
+		LINKS=-L/usr/local/Cellar/glfw3/3.1.2/lib -lgmp -lglfw3
 		CFLAGS=-DGRAPHICS=1 -framework OpenGl --std=c++0x
 	endif
 endif
