@@ -1,7 +1,7 @@
 CPP=g++
 
 CORE=tsvector.cpp constant.cpp
-QED=photon.cpp clock.cpp vector2d.cpp
+QED=qed.cpp photon.cpp clock.cpp vector2d.cpp
 OBJECT=object.cpp block.cpp sphere.cpp convexsphere.cpp concavesphere.cpp
 
 TESTS := $(shell ls test_*.cpp)
