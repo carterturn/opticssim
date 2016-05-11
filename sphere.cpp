@@ -1,5 +1,6 @@
 #include "sphere.h"
 #include "constant.h"
+#include <cmath>
 
 #ifdef GRAPHICS
 #include <GL/gl.h>
