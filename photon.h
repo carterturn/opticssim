@@ -5,11 +5,11 @@
 
 class photon : public light, public clock {
 public:
-photon(tsvector origin, tsvector destination, mpf_class wavelength) : destination(destination), light(origin, wavelength), clock(0){
+photon(tsvector origin, tsvector destination, mpf_class wavelength, mpf_class probability) : destination(destination), light(origin, wavelength), clock(0), probability(probability){
 		path_valid = true;
 		origin_object = NULL;
 	}
-photon(tsvector origin, object * origin_object, tsvector destination, mpf_class wavelength) : destination(destination), origin_object(origin_object), light(origin, wavelength), clock(0){
+photon(tsvector origin, object * origin_object, tsvector destination, mpf_class wavelength, mpf_class probability) : destination(destination), origin_object(origin_object), light(origin, wavelength), clock(0), probability(probability){
 		path_valid = true;
 	}
 
