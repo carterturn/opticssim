@@ -29,7 +29,7 @@ int main(int argc, char * argv[]){
 
 	qed q = qed(tsvector(-5, 0, 0), 532e-9_mpf);
 
-	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
+	block b = block(tsvector(), tsvector(1, 5, 4), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
 	block b2 = block(tsvector(5, 0, 0), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
 
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
@@ -44,13 +44,13 @@ int main(int argc, char * argv[]){
 
 	vector<object*> objects = vector<object*>();
 	objects.push_back(&b);
-	objects.push_back(&b2);
+//	objects.push_back(&b2);
 	
+	cout << q.calculate(objects, 1, 4) << "\n";
 	
 #ifdef GRAPHICS
 	while(true){
 		glClear(GL_COLOR_BUFFER_BIT);
-		cout << q.calculate(objects, 1, 4) << "\n";
 
 		glBegin(GL_LINES);
 
