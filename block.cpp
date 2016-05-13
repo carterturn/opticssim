@@ -71,9 +71,9 @@ void block::draw(){
 bool block::inside(tsvector point){
 	tsvector local_pos = point - center;
 	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-	return (local_pos.x > -0.5*dim.x && local_pos.x < 0.5*dim.x) &&
-		(local_pos.y > -0.5*dim.y && local_pos.y < 0.5*dim.y) &&
-		(local_pos.z > -0.5*dim.z && local_pos.z < 0.5*dim.z);
+	return (local_pos.x >= -0.5*dim.x && local_pos.x <= 0.5*dim.x) &&
+		(local_pos.y >= -0.5*dim.y && local_pos.y <= 0.5*dim.y) &&
+		(local_pos.z >= -0.5*dim.z && local_pos.z <= 0.5*dim.z);
 }
 
 /**
