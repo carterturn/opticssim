@@ -8,6 +8,10 @@
 
 using namespace std;
 
+tsvector sphere::get_surface_normal(tsvector point){
+	return (get_local_normal(point) + point);
+}
+
 #ifdef GRAPHICS
 void sphere::draw(){
 	glBegin(GL_POINTS);

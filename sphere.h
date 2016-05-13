@@ -8,7 +8,7 @@ sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_cl
 
 	std::vector<tsvector> get_points(mpf_class density);
 
-	virtual tsvector get_surface_normal(tsvector point) = 0;
+	tsvector get_surface_normal(tsvector point);
 
 	virtual bool inside(tsvector point) = 0;
 
@@ -17,6 +17,8 @@ sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_cl
 #endif
 
 protected:
+	virtual tsvector get_local_normal(tsvector point) = 0;
+
 	tsvector center;
 	tsvector rot;
 

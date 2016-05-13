@@ -21,6 +21,8 @@ object(mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : m
 #ifdef GRAPHICS
 	virtual void draw() = 0;
 #endif
+protected:
+	virtual tsvector get_local_normal(tsvector point) = 0;
 };
 
 struct object_point{

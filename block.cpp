@@ -7,6 +7,10 @@
 using namespace std;
 
 tsvector block::get_surface_normal(tsvector point){
+	return get_local_normal(point) + point;
+}
+
+tsvector block::get_local_normal(tsvector point){
 	tsvector local_pos = point - center;
 	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 	local_pos.x = local_pos.x / dim.x;
@@ -15,18 +19,19 @@ tsvector block::get_surface_normal(tsvector point){
 
 	if(abs(local_pos.x) > abs(local_pos.z)){
 		if(abs(local_pos.x) > abs(local_pos.y)){
-			if(local_pos.x > 0.25) return point + tsvector(1, 0, 0);
-			if(local_pos.x < -0.25) return point + tsvector(-1, 0, 0);
+			if(local_pos.x > 0.25) return tsvector(1, 0, 0);
+			if(local_pos.x < -0.25) return tsvector(-1, 0, 0);
 		}
 		if(abs(local_pos.y) > abs(local_pos.z)){
-			if(local_pos.y > 0.25) return point + tsvector(0, 1, 0);
-			if(local_pos.y < -0.25) return point + tsvector(0, -1, 0);
+			if(local_pos.y > 0.25) return tsvector(0, 1, 0);
+			if(local_pos.y < -0.25) return tsvector(0, -1, 0);
 		}
 	}
-	if(local_pos.z > 0.25) return point + tsvector(0, 0, 1);
-	if(local_pos.z < -0.25) return point + tsvector(0, 0, -1);
+	if(local_pos.z > 0.25) return tsvector(0, 0, 1);
+	if(local_pos.z < -0.25) return tsvector(0, 0, -1);
 	return tsvector(); // If you are the center, you get a zero vector
 }
+
 
 #ifdef GRAPHICS
 void block::draw(){
@@ -101,7 +106,7 @@ vector<tsvector> block::get_points(mpf_class spacing){
 		if(i % 4 > 1) point_vector.y = point_vector.y * -1;
 		if(i % 2 == 0) point_vector.x = point_vector.x * -1;
 		point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-		points.push_back(point_vector);
+		points.push_back(center + point_vector);
 	}
 	// Order: front, upper, right --> front, upper, left -->
 	//        front, lower, right --> front, lower, left --> corresponding back
@@ -115,7 +120,7 @@ vector<tsvector> block::get_points(mpf_class spacing){
 			if(j > bound.y) break;
 			tsvector point_vector = tsvector(i, j, dim.z*0.5);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-			points.push_back(point_vector);
+			points.push_back(center + point_vector);
 		}
 	}
 	for(mpf_class i = neg_bound.x; i < bound.x; i += spacing){
@@ -124,7 +129,7 @@ vector<tsvector> block::get_points(mpf_class spacing){
 			if(j > bound.y) break;
 			tsvector point_vector = tsvector(i, j, dim.z*-0.5);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-			points.push_back(point_vector);
+			points.push_back(center + point_vector);
 		}
 	}
 	for(mpf_class i = neg_bound.x; i < bound.x; i += spacing){
@@ -133,7 +138,7 @@ vector<tsvector> block::get_points(mpf_class spacing){
 			if(j > bound.z) break;
 			tsvector point_vector = tsvector(i, dim.y*0.5, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-			points.push_back(point_vector);
+			points.push_back(center + point_vector);
 		}
 	}
 	for(mpf_class i = neg_bound.x; i < bound.x; i += spacing){
@@ -142,7 +147,7 @@ vector<tsvector> block::get_points(mpf_class spacing){
 			if(j > bound.z) break;
 			tsvector point_vector = tsvector(i, dim.y*-0.5, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-			points.push_back(point_vector);
+			points.push_back(center + point_vector);
 		}
 	}
 	for(mpf_class i = neg_bound.y; i < bound.y; i += spacing){
@@ -151,7 +156,7 @@ vector<tsvector> block::get_points(mpf_class spacing){
 			if(j > bound.z) break;
 			tsvector point_vector = tsvector(dim.x*0.5, i, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-			points.push_back(point_vector);
+			points.push_back(center + point_vector);
 		}
 	}
 	for(mpf_class i = neg_bound.y; i < bound.y; i += spacing){
@@ -160,7 +165,7 @@ vector<tsvector> block::get_points(mpf_class spacing){
 			if(j > bound.z) break;
 			tsvector point_vector = tsvector(dim.x*-0.5, i, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-			points.push_back(point_vector);
+			points.push_back(center + point_vector);
 		}
 	}
 	

@@ -17,6 +17,9 @@ block(tsvector center, tsvector dim, tsvector rot, mpf_class reflectance, mpf_cl
 #endif
 
 protected:
+
+	tsvector get_local_normal(tsvector point);
+	
 	tsvector center;
 	tsvector rot;
 	tsvector dim;
