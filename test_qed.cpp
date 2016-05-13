@@ -29,7 +29,8 @@ int main(int argc, char * argv[]){
 
 	qed q = qed(tsvector(-5, 0, 0), 532e-9_mpf);
 
-	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 1.0, 0.0, cnst::c);
+	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
+	block b2 = block(tsvector(5, 0, 0), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
 
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
 	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
@@ -43,12 +44,13 @@ int main(int argc, char * argv[]){
 
 	vector<object*> objects = vector<object*>();
 	objects.push_back(&b);
+	objects.push_back(&b2);
 	
-	cout << q.calculate(objects, 1, 4) << "\n";
 	
 #ifdef GRAPHICS
 	while(true){
 		glClear(GL_COLOR_BUFFER_BIT);
+		cout << q.calculate(objects, 1, 4) << "\n";
 
 		glBegin(GL_LINES);
 
@@ -65,6 +67,7 @@ int main(int argc, char * argv[]){
 		glColor3f(0.0f, 1.0f, 0.0f);
 	
 		b.draw();
+		b2.draw();
 
 		glBegin(GL_LINES);
 		glColor3f(0.0f, 0.0f, 1.0f);

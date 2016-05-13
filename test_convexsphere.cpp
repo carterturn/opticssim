@@ -34,7 +34,7 @@ int main(int argc, char * argv[]){
 	cout << s.inside(tsvector(0, 2.5, 0.5)) << "\n";
 
 	tsvector target = tsvector(0, 0, 1);
-	tsvector a = s.get_reflected(target);
+	tsvector a = s.get_surface_normal(target);
 	cout << (a - target).x.get_d() << ", " << (a - target).y.get_d() << ", " << (a - target).z.get_d() << "\n";
 	cout << (a - target).abs().get_d() << "\n";
 

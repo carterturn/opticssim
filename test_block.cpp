@@ -25,7 +25,7 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 1.0, 0.0, cnst::c);
+	block b = block(tsvector(4, 0, 0), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.4, 0.0, cnst::c);
 
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
 	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
@@ -33,9 +33,14 @@ int main(int argc, char * argv[]){
 	cout << b.inside(tsvector(0.5, 0, 0.6)) << "\n";
 	cout << b.inside(tsvector(0, 2.5, 0.5)) << "\n";
 
-	tsvector target = tsvector(0.5, 0, 0.5);
-	tsvector a = b.get_reflected(target);
+	tsvector target = tsvector(3.5, 0.5, 0);
+	tsvector a = b.get_surface_normal(target);
 	cout << a.x.get_d() << ", " << a.y.get_d() << ", " << a.z.get_d() << "\n";
+
+	tsvector x = tsvector(3.5, 0.5, 0);
+	tsvector y = tsvector(2.5, 1.5, 0);
+
+	cout << ((target-a)*(x-y)).get_d() << "\n";
 
 #ifdef GRAPHICS
 	while(true){
@@ -60,8 +65,11 @@ int main(int argc, char * argv[]){
 		glBegin(GL_LINES);
 		glColor3f(0.0f, 0.0f, 1.0f);
 
-		(target + tsvector(0.1, 0, 0)).draw();
+		target.draw();
 		a.draw();
+
+		x.draw();
+		y.draw();
 
 		glEnd();
 
