@@ -9,7 +9,7 @@ photon(tsvector origin, tsvector destination, mpf_class wavelength, mpf_class pr
 		path_valid = true;
 		origin_object = NULL;
 	}
-photon(tsvector origin, object * origin_object, tsvector destination, mpf_class wavelength, mpf_class probability) : destination(destination), origin_object(origin_object), light(origin, wavelength), clock(0), probability(probability){
+photon(tsvector origin, object * origin_object, tsvector destination, object * dest_object, mpf_class wavelength, mpf_class probability) : destination(destination), dest_object(dest_object), origin_object(origin_object), light(origin, wavelength), clock(0), probability(probability){
 		path_valid = true;
 	}
 
@@ -20,6 +20,9 @@ photon(tsvector origin, object * origin_object, tsvector destination, mpf_class 
 	std::vector<photon*> get_paths();
 
 	object * get_origin();
+	object * get_dest();
+
+	tsvector get_destination();
 
 #ifdef GRAPHICS
 	void draw();
@@ -32,6 +35,7 @@ protected:
 	tsvector destination;
 
 	object * origin_object;
+	object * dest_object;
 
 	mpf_class probability;
 };

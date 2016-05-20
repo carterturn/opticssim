@@ -23,21 +23,18 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 
 	tsvector ray_vector;
 
-	cout << "g\n";
 	// While the ray_vector is shorter than the distance from destination to origin
 	while(abs(ray_vector) < abs(destination - origin) && path_valid){
 		ray_vector = ray_vector + step_vector; // Move forward step_vector
 
 		// Make sure we are not inside an object we should not be inside
 		for(int i = 0; i < objects.size(); i++){
-			if(objects[i]->inside(origin + ray_vector) && !(objects[i]->inside(origin) && objects[i]->inside(destination))){
+			if(objects[i]->inside(origin + ray_vector) && !(get_origin() == objects[i] && get_dest() == objects[i])){
 				path_valid = false;
 				return 1;
 			}
 		}
-		cout << "t\n";
 	}
-	cout << "h\n";
 
 	mpf_class destination_turn = abs(destination - origin) / wavelength;
 	turn(destination_turn);
@@ -47,6 +44,14 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 
 object * photon::get_origin(){
 	return origin_object;
+}
+
+object * photon::get_dest(){
+	return dest_object;
+}
+
+tsvector photon::get_destination(){
+	return destination;
 }
 
 #ifdef GRAPHICS

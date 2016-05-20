@@ -35,22 +35,59 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 
 	for(int i = 0; i < points.size(); i++){
 		initial_photons.push_back(new photon(origin, points[i].point, wavelength, 1.0));
-		for(int j = 0; j < points.size(); j++){
-			if(i != j){
-				mpf_class lambda = wavelength;
-				initial_photons.push_back(new photon(points[i].point, points[i].obj, points[j].point, lambda, 1.0));
-			}
-		}
 	}
 	
 	for(int i = 0; i < initial_photons.size(); i++){
 		initial_photons[i]->calculate(objects, density, depth);
 	}
 	for(int i = initial_photons.size()-1; i > 0; i--){
-		if(!initial_photons[i]->is_valid()){
+		if(initial_photons[i]->is_valid()){
+			drawable_photons.push_back(*initial_photons[i]);
+		}
+		else{
 			delete initial_photons[i];
 			initial_photons.erase(initial_photons.begin()+i);
 		}
+	}
+
+
+	for(int d = 0; d < depth; d++){
+		vector<photon*> photons = vector<photon*>();
+		for(int i = 0; i < initial_photons.size(); i++){
+			for(int j = 0; j < points.size(); j++){
+				if(!((initial_photons[i]->get_destination().x == points[j].point.x)
+				     && (initial_photons[i]->get_destination().y == points[j].point.y)
+				     && (initial_photons[i]->get_destination().z == points[j].point.z))){
+					mpf_class lambda = wavelength;
+					if(points[i].obj == points[j].obj){
+						lambda = wavelength * points[i].obj->get_lightspeed() / cnst::c;
+					}
+					photons.push_back(new photon(initial_photons[i]->get_destination(), initial_photons[i]->get_dest(), points[j].point, points[j].obj, lambda, 1.0));
+				}
+			}
+		}
+
+		for(int i = 0; i < photons.size(); i++){
+			photons[i]->calculate(objects, density, depth);
+		}
+
+		for(int i = photons.size() - 1; i > 0; i--){
+			if(photons[i]->is_valid()){
+				drawable_photons.push_back(*initial_photons[i]);
+				initial_photons.push_back(photons[i]);
+			}
+			else{
+				delete initial_photons[i];
+				initial_photons.erase(initial_photons.begin()+i);
+			}
+		}
+
+		for(int i = initial_photons.size()-1; i > 0; i--){
+			delete initial_photons[i];
+			initial_photons.erase(initial_photons.begin()+i);
+		}
+		initial_photons.shrink_to_fit();
+
 	}
 
 	return 0;
