@@ -14,6 +14,8 @@ using namespace std;
 
 int main(int argc, char * argv[]){
 
+	cnst::precision = 1.0_mpf;
+
 #ifdef GRAPHICS
 	glfwInit();
 	GLFWwindow * window = glfwCreateWindow(1000, 1000, "Util Test", NULL, NULL);
@@ -27,10 +29,10 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	qed q = qed(tsvector(-5, 0, 0), 532e-9_mpf);
+	qed q = qed(tsvector(-2.5, 0, 0), 532e-9_mpf);
 
 	block b = block(tsvector(), tsvector(1, 5, 4), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
-	block b2 = block(tsvector(5, 0, 0), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
+	block b2 = block(tsvector(5, 0, 0), tsvector(1, 5, 4), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
 
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
 	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
@@ -44,9 +46,9 @@ int main(int argc, char * argv[]){
 
 	vector<object*> objects = vector<object*>();
 	objects.push_back(&b);
-//	objects.push_back(&b2);
+	objects.push_back(&b2);
 	
-	cout << q.calculate(objects, 1, 4) << "\n";
+	cout << q.calculate(objects, 0.5, 1) << "\n";
 	
 #ifdef GRAPHICS
 	while(true){
