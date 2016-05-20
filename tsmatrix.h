@@ -41,6 +41,8 @@ tsmatrix();
 
 	mpf_class det();
 
+	tsmatrix inv();
+
 	void print();
 };
 

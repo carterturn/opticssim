@@ -26,6 +26,10 @@ void sphere::draw(){
 }
 #endif
 
+mpf_class sphere::get_radius(){
+	return radius;
+}
+
 vector<tsvector> sphere::get_points(mpf_class spacing){
 	vector<tsvector> points = vector<tsvector>();
 

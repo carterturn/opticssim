@@ -154,6 +154,28 @@ mpf_class tsmatrix::det(){
 		 d[0][2]*d[1][1]*d[2][0]);
 }
 
+tsmatrix tsmatrix::inv(){
+	mpf_class determinant = det();
+	if(determinant == 0) return NULL;
+
+	tsmatrix inv;
+
+	inv.d[0][0] = d[1][1]*d[2][2] - d[1][2]*d[2][1];
+	inv.d[0][1] = d[0][2]*d[2][1] - d[0][1]*d[2][2];
+	inv.d[0][2] = d[0][1]*d[1][2] - d[0][2]*d[1][1];
+
+	inv.d[1][0] = d[1][2]*d[2][0] - d[1][0]*d[2][2];
+	inv.d[1][1] = d[0][0]*d[2][2] - d[0][2]*d[2][0];
+	inv.d[1][2] = d[0][2]*d[1][0] - d[0][0]*d[1][2];
+
+	inv.d[2][0] = d[1][0]*d[2][1] - d[1][1]*d[2][0];
+	inv.d[2][1] = d[0][1]*d[2][0] - d[0][0]*d[2][1];
+	inv.d[2][2] = d[0][0]*d[1][1] - d[0][1]*d[1][0];
+
+	inv = inv * (1.0 / determinant);
+	return inv;
+}
+
 mpf_class det(tsmatrix input){
 	return input.det();
 }
