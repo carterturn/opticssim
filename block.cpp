@@ -32,6 +32,9 @@ tsvector block::get_local_normal(tsvector point){
 	return tsvector(); // If you are the center, you get a zero vector
 }
 
+mpf_class block::get_radius(){
+	return (dim * (1.0/2.0)).abs();
+}
 
 #ifdef GRAPHICS
 void block::draw(){

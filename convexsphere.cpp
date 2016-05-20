@@ -32,3 +32,7 @@ bool convexsphere::inside(tsvector point){
 	return (abs(local_pos - curve_center_left()) < radius) &&
 		(abs(local_pos - curve_center_right()) < radius);
 }
+
+mpf_class convexsphere::get_radius(){
+	return radius;
+}

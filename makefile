@@ -1,6 +1,6 @@
 CPP=g++
 
-CORE=tsvector.cpp constant.cpp
+CORE=tsvector.cpp tsmatrix.cpp constant.cpp
 QED=qed.cpp photon.cpp clock.cpp vector2d.cpp
 OBJECT=object.cpp block.cpp sphere.cpp convexsphere.cpp concavesphere.cpp
 
