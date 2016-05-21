@@ -4,20 +4,24 @@
 
 class sphere : public object {
 public:
-sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance) : center(center), radius(radius), height(height), rot(rot), object(reflectance, transmittance){}
+sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : radius(radius), height(height), rot(rot), object(center, reflectance, transmittance, lightspeed){}
 
 	std::vector<tsvector> get_points(mpf_class density);
 
-	virtual tsvector get_surface_normal(tsvector point) = 0;
+	tsvector get_surface_normal(tsvector point);
 
 	virtual bool inside(tsvector point) = 0;
+
+	mpf_class get_radius();
+
 
 #ifdef GRAPHICS
 	void draw();
 #endif
 
 protected:
-	tsvector center;
+	virtual tsvector get_local_normal(tsvector point) = 0;
+
 	tsvector rot;
 
 	mpf_class radius;

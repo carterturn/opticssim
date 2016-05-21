@@ -1,16 +1,16 @@
 #include "concavesphere.h"
 
-tsvector concavesphere::get_surface_normal(tsvector point){
+tsvector concavesphere::get_local_normal(tsvector point){
 	tsvector local_pos = point - center;
 	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 
 	if(local_pos.x < 0){
 		tsvector radius_vector = local_pos - tsvector(-radius, 0, 0);
-		return point - (radius_vector * (1.0 / radius_vector.abs())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d());
+		return (radius_vector * (1.0 / radius_vector.abs())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d()) * -1.0;
 	}
 	if(local_pos.x > 0){
 		tsvector radius_vector = local_pos - tsvector(radius, 0, 0);
-		return point - (radius_vector * (1.0 / radius_vector.abs())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d());
+		return (radius_vector * (1.0 / radius_vector.abs())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d()) * -1.0;
 	}
 	return tsvector(); // If you are the center, you get a zero vector
 }

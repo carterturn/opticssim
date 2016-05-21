@@ -8,6 +8,10 @@
 
 using namespace std;
 
+tsvector sphere::get_surface_normal(tsvector point){
+	return (get_local_normal(point) + point);
+}
+
 #ifdef GRAPHICS
 void sphere::draw(){
 	glBegin(GL_POINTS);
@@ -21,6 +25,10 @@ void sphere::draw(){
 	glEnd();
 }
 #endif
+
+mpf_class sphere::get_radius(){
+	return radius;
+}
 
 vector<tsvector> sphere::get_points(mpf_class spacing){
 	vector<tsvector> points = vector<tsvector>();
