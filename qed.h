@@ -7,8 +7,7 @@
 class qed : public light{
 public:
 qed(tsvector origin, mpf_class wavelength) : light(origin, wavelength){
-		initial_photons = std::vector<photon*>();
-		drawable_photons = std::vector<photon>();
+		photons = std::vector<photon*>();
 }
 	~qed();
 
@@ -18,7 +17,5 @@ qed(tsvector origin, mpf_class wavelength) : light(origin, wavelength){
 	void draw();
 #endif
 protected:
-	std::vector<photon*> initial_photons;
-
-	std::vector<photon> drawable_photons;
+	std::vector<photon*> photons;
 };
