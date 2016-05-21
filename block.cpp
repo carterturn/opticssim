@@ -103,70 +103,38 @@ bool block::inside(tsvector point){
 vector<tsvector> block::get_points(mpf_class spacing){
 	vector<tsvector> points = vector<tsvector>();
 
-	for(int i = 0; i < 8; i++){
-		tsvector point_vector = dim * 0.5;
-		if(i > 3) point_vector.z = point_vector.z * -1;
-		if(i % 4 > 1) point_vector.y = point_vector.y * -1;
-		if(i % 2 == 0) point_vector.x = point_vector.x * -1;
-		point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-		points.push_back(center + point_vector);
-	}
-	// Order: front, upper, right --> front, upper, left -->
-	//        front, lower, right --> front, lower, left --> corresponding back
-
 	tsvector bound = dim*0.5;
 	tsvector neg_bound = dim*-0.5;
 
- 	for(mpf_class i = neg_bound.x; i < bound.x; i += spacing){
-		if(i > bound.x) break;
-		for(mpf_class j = neg_bound.y; j < bound.y; j += spacing){
-			if(j > bound.y) break;
+ 	for(mpf_class i = neg_bound.x; i < bound.x + spacing; i += spacing){
+		if(i > bound.x) i = bound.x;
+		for(mpf_class j = neg_bound.y; j < bound.y + spacing; j += spacing){
+			if(j > bound.y) j = bound.y;
 			tsvector point_vector = tsvector(i, j, dim.z*0.5);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point_vector);
-		}
-	}
-	for(mpf_class i = neg_bound.x; i < bound.x; i += spacing){
-		if(i > bound.x) break;
-		for(mpf_class j = neg_bound.y; j < bound.y; j += spacing){
-			if(j > bound.y) break;
-			tsvector point_vector = tsvector(i, j, dim.z*-0.5);
+			point_vector = tsvector(i, j, dim.z*-0.5);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point_vector);
 		}
 	}
-	for(mpf_class i = neg_bound.x; i < bound.x; i += spacing){
-		if(i > bound.x) break;
-		for(mpf_class j = neg_bound.z; j < bound.z; j += spacing){
-			if(j > bound.z) break;
+	for(mpf_class i = neg_bound.x + spacing; i < bound.x; i += spacing){
+		for(mpf_class j = neg_bound.z; j < bound.z + spacing; j += spacing){
+			if(j > bound.z) j = bound.z;
 			tsvector point_vector = tsvector(i, dim.y*0.5, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point_vector);
-		}
-	}
-	for(mpf_class i = neg_bound.x; i < bound.x; i += spacing){
-		if(i > bound.x) break;
-		for(mpf_class j = neg_bound.z; j < bound.z; j += spacing){
-			if(j > bound.z) break;
-			tsvector point_vector = tsvector(i, dim.y*-0.5, j);
+			point_vector = tsvector(i, dim.y*-0.5, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point_vector);
 		}
 	}
-	for(mpf_class i = neg_bound.y; i < bound.y; i += spacing){
-		if(i > bound.y) break;
-		for(mpf_class j = neg_bound.z; j < bound.z; j += spacing){
-			if(j > bound.z) break;
+	for(mpf_class i = neg_bound.y + spacing; i < bound.y; i += spacing){
+		for(mpf_class j = neg_bound.z + spacing; j < bound.z; j += spacing){
 			tsvector point_vector = tsvector(dim.x*0.5, i, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point_vector);
-		}
-	}
-	for(mpf_class i = neg_bound.y; i < bound.y; i += spacing){
-		if(i > bound.y) break;
-		for(mpf_class j = neg_bound.z; j < bound.z; j += spacing){
-			if(j > bound.z) break;
-			tsvector point_vector = tsvector(dim.x*-0.5, i, j);
+			point_vector = tsvector(dim.x*-0.5, i, j);
 			point_vector.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point_vector);
 		}
