@@ -16,6 +16,8 @@ int main(int argc, char * argv[]){
 
 	cnst::precision = 1.0_mpf;
 
+	cout << sizeof(photon) << "\n";
+
 #ifdef GRAPHICS
 	glfwInit();
 	GLFWwindow * window = glfwCreateWindow(1000, 1000, "Util Test", NULL, NULL);
@@ -31,14 +33,15 @@ int main(int argc, char * argv[]){
 
 	qed q = qed(tsvector(-2.5, 0, 0), 532e-9_mpf);
 
-	block b = block(tsvector(), tsvector(1, 5, 4), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
-	block b2 = block(tsvector(5, 0, 0), tsvector(1, 5, 4), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
+	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
+	block b2 = block(tsvector(5, 0, 0), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
 
 	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
 	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
 	cout << b.inside(tsvector(0.5, 2.5, 0)) << "\n";
 	cout << b.inside(tsvector(0.5, 0, 0.6)) << "\n";
 	cout << b.inside(tsvector(0, 2.5, 0.5)) << "\n";
+	cout << b.get_points(0.5 ).size() << "\n";
 
 	tsvector target = tsvector(0.5, 0, 0.5);
 	tsvector a = b.get_reflected(target);
@@ -48,7 +51,7 @@ int main(int argc, char * argv[]){
 	objects.push_back(&b);
 	objects.push_back(&b2);
 	
-	cout << q.calculate(objects, 0.5, 1) << "\n";
+	cout << q.calculate(objects, 1, 3) << "\n";
 	
 #ifdef GRAPHICS
 	while(true){
@@ -79,7 +82,6 @@ int main(int argc, char * argv[]){
 
 		glEnd();
 
-		glColor3f(1.0f, 1.0f, 1.0f);
 		q.draw();
 
 		glfwSwapBuffers(window);
