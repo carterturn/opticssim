@@ -49,6 +49,8 @@ public:
 	tsvector operator* (const float& scalar);
 	tsvector operator* (const mpf_class& scalar);
 
+	bool operator== (const tsvector& param);
+
 	mpf_class abs();
 
 #ifdef GRAPHICS

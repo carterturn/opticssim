@@ -121,6 +121,10 @@ tsvector tsvector::operator*(const mpf_class& scalar){
 	return result;
 }
 
+bool tsvector::operator==(const tsvector& param){
+	return x == param.x && y == param.y && z == param.z;
+}
+
 mpf_class tsvector::abs(){
 	return sqrt(x*x + y*y + z*z);
 }
