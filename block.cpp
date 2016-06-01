@@ -71,7 +71,7 @@ void block::draw(){
    You should have received a copy of the GNU General Public License
    along with Terca Simulator.  If not, see <http://www.gnu.org/licenses/>.
 */
-bool block::inside(tsvector point){
+tsvector block::get_intersection(tsvector point, tsvector direction);{
 	tsvector local_pos = point - center;
 	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 	return (local_pos.x >= -0.5*dim.x && local_pos.x <= 0.5*dim.x) &&

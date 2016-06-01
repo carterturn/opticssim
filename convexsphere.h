@@ -5,10 +5,6 @@
 class convexsphere : public sphere {
 public:
 convexsphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : sphere(center, radius, height, rot, reflectance, transmittance, lightspeed){}
-
-	bool inside(tsvector point);
-
-	mpf_class get_radius();
 	
 protected:
 	tsvector get_local_normal(tsvector point);

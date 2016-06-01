@@ -27,11 +27,7 @@ int main(int argc, char * argv[]){
 
 	block b = block(tsvector(4, 0, 0), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.4, 0.0, cnst::c);
 
-	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
-	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
-	cout << b.inside(tsvector(0.5, 2.5, 0)) << "\n";
-	cout << b.inside(tsvector(0.5, 0, 0.6)) << "\n";
-	cout << b.inside(tsvector(0, 2.5, 0.5)) << "\n";
+	// TODO add intersection tests
 	cout << b.get_points(0.5).size() << "\n";
 
 	tsvector target = tsvector(3.5, 0.5, 0);

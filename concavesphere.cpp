@@ -23,10 +23,3 @@ tsvector concavesphere::curve_center_right(){
 	return curve_center_left() * -1.0;
 }
 
-bool concavesphere::inside(tsvector point){
-	tsvector local_pos = point - center;
-	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
-
-	return (abs(local_pos - curve_center_left()) < radius) &&
-		(abs(local_pos - curve_center_right()) < radius);
-}

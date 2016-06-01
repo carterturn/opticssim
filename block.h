@@ -10,7 +10,7 @@ block(tsvector center, tsvector dim, tsvector rot, mpf_class reflectance, mpf_cl
 
 	tsvector get_surface_normal(tsvector point);
 
-	bool inside(tsvector point);
+	tsvector get_intersection(tsvector point, tsvector direction);
 
 	mpf_class get_radius();
 

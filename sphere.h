@@ -10,7 +10,7 @@ sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_cl
 
 	tsvector get_surface_normal(tsvector point);
 
-	virtual bool inside(tsvector point) = 0;
+	tsvector get_intersection(tsvector point, tsvector direction);
 
 	mpf_class get_radius();
 

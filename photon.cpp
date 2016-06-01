@@ -18,30 +18,21 @@ bool photon::is_valid(){
 	return path_valid; // path_valid is calculated while we run the photon along its path
 }
 
-
-
 int photon::calculate(vector<object*> objects){
+	double shortest_distance = INFINITY;
+	tsvector closest_intersection;
+	tsvector direction = destination - origin;
 
-	// Normalized vector from the origin to the destination
-	tsvector step_vector = (destination - origin);
-	step_vector = step_vector * (cnst::precision / sqrt(step_vector * step_vector));
-
-	tsvector ray_vector;
-
-	// While the ray_vector is shorter than the distance from destination to origin
-	while(abs(ray_vector) < abs(destination - origin) && path_valid){
-		ray_vector = ray_vector + step_vector; // Move forward step_vector
-
-		for(int i = 0; i < objects.size(); i++){
-			if(objects[i]->inside(origin + ray_vector)){
-				path_valid = false;
-				break;
-			}
+	for(int i = 0; i < objects.size(); i++){
+		double intersection = abs(objects[i]->get_intersection(origin, direction));
+		if(intersection != NULL and abs(intersection) < shortest_distance){
+			shortest_distance = abs(intersection);
+			closest_intersection = intersection;
 		}
-
-		
 	}
+	path_valid = (shortest_distance == INFINITY);
 
+	// What now? What do we do with the resulting intersection?
 }
 
 #ifdef GRAPHICS

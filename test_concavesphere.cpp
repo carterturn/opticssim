@@ -27,11 +27,7 @@ int main(int argc, char * argv[]){
 
 	concavesphere s = concavesphere(tsvector(), 15, 9, tsvector(0, 0, 0), 1.0, 0.0, cnst::c);
 
-	cout << s.inside(tsvector(0, 2, 0)) << "\n";
-	cout << s.inside(tsvector(1, 0, 0)) << "\n";
-	cout << s.inside(tsvector(0.1, 1, 0)) << "\n";
-	cout << s.inside(tsvector(0.5, 0, 0.6)) << "\n";
-	cout << s.inside(tsvector(0, 2.5, 0.5)) << "\n";
+	// TODO add intersection tests
 
 	tsvector target = tsvector(-0.6, 3, 0);
 	tsvector a = s.get_surface_normal(target);

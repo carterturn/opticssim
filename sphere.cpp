@@ -62,3 +62,27 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 	return points;
 }
 
+tsvector sphere::get_intersection(tsvector point, tsvector direction){
+	tsvector direction_unit = direction * (1.0 / abs(direction));
+
+	// Temporary quantities saved for efficiency
+	tsvector c_minus_p = center - point;
+	double temp1 = direction_unit * c_minus_p;
+	double temp2 = pow(direction_unit * c_minus_p, 2) + pow(radius, 2) - (c_minus_p * c_minus_p);
+
+	if (temp2 < 0) {
+		return NULL;
+	}
+
+	double temp3 = sqrt(temp2);
+
+	tsvector intersection_1 = point + direction_unit * (temp1 - temp3);
+	tsvector intersection_2 = point + direction_unit * (temp1 + temp3);
+	
+	// Check which intersection is closer to the original point by finding the magnitude of (intersection - point) and comparing
+	if (abs(temp1 - temp2) < abs(temp1 + temp2)) {
+		return intersection_1;
+	} else {
+		return intersection_2;
+	}
+}

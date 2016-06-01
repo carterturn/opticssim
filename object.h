@@ -18,7 +18,7 @@ object(tsvector center, mpf_class reflectance, mpf_class transmittance, mpf_clas
 
 	virtual tsvector get_surface_normal(tsvector point) = 0;
 
-	virtual bool inside(tsvector point) = 0;
+	virtual tsvector get_intersection(tsvector point, tsvector direction) = 0;
 
 	virtual mpf_class get_radius() = 0;
 
