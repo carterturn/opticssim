@@ -19,3 +19,4 @@ public:
 	tsvector operator* (const double& scalar);
 	tsvector operator* (const float& scalar);
 	tsvector operator* (const mpf_class& scalar);
+};

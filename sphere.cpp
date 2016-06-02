@@ -1,5 +1,6 @@
 #include "sphere.h"
 #include "constant.h"
+#include "invalid_tsvector.h"
 #include <cmath>
 
 #ifdef GRAPHICS
@@ -50,9 +51,9 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 	for(mpf_class i = atan(-1 * height_radius_ratio.get_d()); i < atan(height_radius_ratio.get_d()); i += angle_spacing){
 		for(mpf_class j = 0; j < cnst::tau; j += 1.0 / height_radius_ratio.get_d() * (atan(height_radius_ratio.get_d()) - i)){
 			tsvector point = tsvector(radius, 0, 0);
-			point.rotate(0, 0, i);
+			point.rotate(0, 0, i.get_d());
 			point = point + curve_center_left();
-			point.rotate(j, 0, 0);
+			point.rotate(j.get_d(), 0, 0);
 			point.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point);
 		}
@@ -61,9 +62,9 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 	for(mpf_class i = atan(-1 * height_radius_ratio.get_d()); i < atan(height_radius_ratio.get_d()); i += angle_spacing){
 		for(mpf_class j = 0; j < cnst::tau; j += 1.0 / height_radius_ratio.get_d() * (atan(height_radius_ratio.get_d()) - i)){
 			tsvector point = tsvector(-radius, 0, 0);
-			point.rotate(0, 0, i);
+			point.rotate(0, 0, i.get_d());
 			point = point + curve_center_right();
-			point.rotate(j, 0, 0);
+			point.rotate(j.get_d(), 0, 0);
 			point.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 			points.push_back(center + point);
 		}
@@ -73,12 +74,12 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 }
 
 tsvector sphere::get_intersection(photon incident_photon){
-	tsvector direction_unit = incident_photon.direction.normalize();
+	tsvector direction_unit = incident_photon.get_direction().normalize();
 
 	// Temporary quantities saved for efficiency
-	tsvector c_minus_p = center - incident_photon.origin;
+	tsvector c_minus_p = center - incident_photon.get_origin();
 	mpf_class temp1 = direction_unit * c_minus_p;
-	mpf_class temp2 = pow(temp1, 2) + pow(radius, 2) - (c_minus_p * c_minus_p);
+	mpf_class temp2 = pow(temp1.get_d(), 2) + pow(radius.get_d(), 2) - (c_minus_p * c_minus_p);
 
 	if (temp2 < 0) {
 		return invalid_tsvector();
@@ -86,8 +87,8 @@ tsvector sphere::get_intersection(photon incident_photon){
 
 	mpf_class temp3 = sqrt(temp2);
 
-	tsvector intersection_1 = incident_photon.origin + direction_unit * (temp1 - temp3);
-	tsvector intersection_2 = incident_photon.origin + direction_unit * (temp1 + temp3);
+	tsvector intersection_1 = incident_photon.get_origin() + direction_unit * (temp1 - temp3);
+	tsvector intersection_2 = incident_photon.get_origin() + direction_unit * (temp1 + temp3);
 	
 	// Check which intersection is closer to the original point by finding the magnitude of (intersection - origin) and comparing
 	// Also check that we are not going backwards
