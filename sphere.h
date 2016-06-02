@@ -3,7 +3,7 @@
 #include "object.h"
 #include "photon.h"
 
-class sphere : public object {
+class sphere : public virtual object {
 public:
 	sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot) : center(center), radius(radius), height(height), rot(rot){}
 

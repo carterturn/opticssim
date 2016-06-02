@@ -30,7 +30,7 @@ void source::radiate(vector<object*> objects, int depth){
 }
 
 #ifdef GRAPHICS
-void photon::draw(){
+void source::draw(){
 	if (!this->is_valid()) {
 		return;
 	}

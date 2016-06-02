@@ -1,5 +1,7 @@
 #include "concavespheremirror.h"
+#include "source.h"
 #include <iostream>
+#include <vector>
 
 #ifdef GRAPHICS
 #include <GL/gl.h>
@@ -28,6 +30,12 @@ int main(int argc, char * argv[]){
 #endif
 
 	concavespheremirror s = concavespheremirror(tsvector(), 15, 9, tsvector(0, 0, 0));
+	
+	vector<object*> objects;
+	objects.push_back(&s);
+
+	source src = source(tsvector(-30, 0, 0), 1000);
+	src.radiate(objects, 2);
 
 	tsvector target = tsvector(-0.6, 3, 0);
 	tsvector a = s.get_surface_normal(target);
@@ -65,6 +73,7 @@ int main(int argc, char * argv[]){
 		glColor3f(0.0f, 1.0f, 0.0f);
 	
 		s.draw();
+		src.draw();
 
 		glBegin(GL_LINES);
 		glColor3f(0.0f, 0.0f, 1.0f);
