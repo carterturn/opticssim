@@ -44,7 +44,6 @@ void photon::radiate(vector<object*> objects, int depth){
 
 	if(shortest_distance != INFINITY){
 		#ifdef GRAPHICS
-		tsvector destination = origin + direction * ray_length;
 		glBegin(GL_LINES);
 
 		glVertex3f(origin.x.get_d(), origin.y.get_d(), origin.z.get_d());

@@ -18,4 +18,10 @@ concavespheremirror(tsvector center, mpf_class radius, mpf_class height, tsvecto
 	photon* get_redirected_photon(photon* incident_photon){
 		return mirror::get_redirected_photon(incident_photon);
 	}
+
+#ifdef GRAPHICS
+	void draw(){
+		sphere::draw();
+	}
+#endif
 };

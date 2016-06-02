@@ -1,13 +1,13 @@
 #include "mirror.h"
+#include "invalid_tsvector.h"
 
 using namespace std;
 
-photon* sphere::get_redirected_photon(photon* incident_photon){
-	incident_photon = incident_photon*;
-	tsvector intersection = this->get_intersection(photon);
+photon* mirror::get_redirected_photon(photon* incident_photon){
+	tsvector intersection = this->get_intersection(incident_photon);
 	if (!intersection.is_valid()) {
-		return photon(invalid_tsvector(), invalid_tsvector());
+		return new photon(invalid_tsvector(), invalid_tsvector());
 	}
 	tsvector surface_normal = this->get_surface_normal(intersection);
-	return photon(intersection, incident_photon.get_direction() - surfaceNormal * (incident_photon.get_direction() * surface_normal * 2));
+	return new photon(intersection, incident_photon->get_direction() - surface_normal * (incident_photon->get_direction() * surface_normal * 2));
 }

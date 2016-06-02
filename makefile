@@ -2,7 +2,7 @@ CPP=g++
 
 CORE=tsvector.cpp constant.cpp
 QED=photon.cpp
-OBJECT=sphere.cpp convexsphere.cpp concavesphere.cpp
+OBJECT=sphere.cpp convexsphere.cpp concavesphere.cpp mirror.cpp
 
 TESTS := $(shell ls test_*.cpp)
 
