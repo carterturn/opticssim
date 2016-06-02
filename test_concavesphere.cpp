@@ -34,13 +34,7 @@ int main(int argc, char * argv[]){
 	vector<object*> objects;
 	objects.push_back(&s);
 
-	source src = source(tsvector(-30, 0, 0), 1000);
-	src.radiate(objects, 2);
-
-	tsvector target = tsvector(-0.6, 3, 0);
-	tsvector a = s.get_surface_normal(target);
-	cout << (a - target).x.get_d() << ", " << (a - target).y.get_d() << ", " << (a - target).z.get_d() << "\n";
-	cout << (a - target).norm().get_d() << "\n";
+	source src = source(tsvector(50, 0, 0), 10);
 
 #ifdef GRAPHICS
 	while(true){
@@ -74,14 +68,7 @@ int main(int argc, char * argv[]){
 	
 		s.draw();
 		src.draw();
-
-		glBegin(GL_LINES);
-		glColor3f(0.0f, 0.0f, 1.0f);
-
-		(target + tsvector(0.1, 0, 0)).draw();
-		a.draw();
-
-		glEnd();
+		src.radiate(objects, 2);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

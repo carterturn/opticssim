@@ -2,6 +2,7 @@
 #include "constant.h"
 #include "invalid_tsvector.h"
 #include <cmath>
+#include <iostream>
 
 #ifdef GRAPHICS
 #include <GL/gl.h>
@@ -24,7 +25,7 @@ tsvector sphere::get_rot(){
 
 tsvector sphere::get_surface_normal(tsvector point){
 	tsvector shifted = point - center;
-	return tsvector(shifted.x, shifted.y, shifted.z).normalize(); // FIX THIS
+	return tsvector(shifted.x, shifted.y, 0).normalize(); // FIX THIS
 }
 
 #ifdef GRAPHICS
@@ -90,9 +91,13 @@ tsvector sphere::get_intersection(photon* incident_photon){
 	tsvector intersection_1 = incident_photon->get_origin() + direction_unit * (temp1 - temp3);
 	tsvector intersection_2 = incident_photon->get_origin() + direction_unit * (temp1 + temp3);
 	
+	cout << intersection_1.x.get_d() << "~" << intersection_1.y.get_d() << "~" << intersection_1.z.get_d() << "\n";
+	cout << intersection_2.x.get_d() << "~" << intersection_2.y.get_d() << "~" << intersection_2.z.get_d() << "\n";
+
 	// Check which intersection is closer to the original point by finding the magnitude of (intersection - origin) and comparing
 	// Also check that we are not going backwards
 	if (temp1 - temp3 < 0 and temp1 + temp3 < 0) {
+		cout << "NO POR FAVOR\n";
 		return invalid_tsvector();
 	} else if (temp1 - temp3 < 0) {
 		return intersection_2;
