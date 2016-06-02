@@ -26,7 +26,8 @@ void source::radiate(vector<object*> objects, int depth){
 	}
 
 	for (int i = 0; i < intensity; i++) {
-		photon(origin, tsvector(((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX))).normalize()).radiate(objects, depth - 1);
+		tsvector random_direction = tsvector(((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX)), ((double) rand() / (RAND_MAX))).normalize();
+		photon(origin, random_direction).radiate(objects, depth - 1);
 		//photon(origin, tsvector(-1, -5 + 10 * ((double) rand() / (RAND_MAX)), 0).normalize()).radiate(objects, depth - 1);
 	}
 }

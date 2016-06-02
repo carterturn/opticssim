@@ -41,7 +41,7 @@ public:
 	tsvector rotate(double tx, double ty, double tz);
 	mpf_class norm();
 	tsvector normalize();
-	bool is_valid();
+	virtual bool is_valid();
 	
 	tsvector operator+ (const tsvector& param);
 	tsvector operator- (const tsvector& param);

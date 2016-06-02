@@ -8,10 +8,12 @@ photon* mirror::get_redirected_photon(photon* incident_photon){
 	tsvector intersection = this->get_intersection(incident_photon);
 	if (!intersection.is_valid()) {
 		cout << "OH GOD NO\n";
-		return new photon(invalid_tsvector(), invalid_tsvector());
+		invalid_tsvector invalid = invalid_tsvector();
+		return new photon(invalid, invalid);
 	}
 	cout << intersection.x.get_d() << ":" << intersection.y.get_d() << ":" << intersection.z.get_d() << "\n";
 	cout << intersection.norm().get_d() << "\n";
 	tsvector surface_normal = this->get_surface_normal(intersection);
-	return new photon(intersection, incident_photon->get_direction() - surface_normal * (incident_photon->get_direction() * surface_normal * 2));
+	tsvector direction = incident_photon->get_direction() - surface_normal * (incident_photon->get_direction() * surface_normal * 2);
+	return new photon(intersection, direction);
 }

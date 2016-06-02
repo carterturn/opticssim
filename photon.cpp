@@ -8,11 +8,11 @@
 
 using namespace std;
 
-tsvector photon::get_origin(){
+tsvector& photon::get_origin(){
 	return origin;
 }
 
-tsvector photon::get_direction(){
+tsvector& photon::get_direction(){
 	return direction;
 }
 
@@ -35,7 +35,8 @@ void photon::radiate(vector<object*> objects, int depth){
 		return;
 	}
 	mpf_class shortest_distance = 99e99_mpf;
-	photon* closest_reflection = new photon(invalid_tsvector(), invalid_tsvector());
+	invalid_tsvector invalid = invalid_tsvector();
+	photon* closest_reflection = new photon(invalid, invalid);
 
 	for(int i = 0; i < objects.size(); i++){
 		photon* reflected_photon = objects[i]->get_redirected_photon(this);
