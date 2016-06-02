@@ -1,5 +1,5 @@
 #include "convexsphere.h"
-#include "constant.h"
+#include "sphere.h"
 #include <iostream>
 
 #ifdef GRAPHICS
@@ -11,8 +11,11 @@
 using namespace std;
 
 int main(int argc, char * argv[]){
+	// Seed rand()
+	srand((unsigned)time(NULL));
 
 #ifdef GRAPHICS
+	// Make window
 	glfwInit();
 	GLFWwindow * window = glfwCreateWindow(1000, 1000, "Util Test", NULL, NULL);
 
@@ -24,10 +27,8 @@ int main(int argc, char * argv[]){
 	glfwMakeContextCurrent(window);
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
-
-	convexsphere s = convexsphere(tsvector(), 15, 9, tsvector(0, 1.57, 0), 1.0, 0.0, cnst::c);
-
-	// TODO add intersection tests
+	
+	convexspheremirror s = convexsphere(tsvector(), 15, 9, tsvector(0, 1.57, 0));
 
 	tsvector target = tsvector(0, 0, 1);
 	tsvector a = s.get_surface_normal(target);

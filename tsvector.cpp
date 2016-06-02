@@ -51,6 +51,23 @@ tsvector tsvector::rotate(double tx, double ty, double tz){
 	return zrot;
 }
 
+double tsvector::norm(){
+	return sqrt(this * this);
+}
+
+tsvector tsvector::normalize(){
+	double my_norm = this->norm();
+	if (my_norm != 0) {
+		return this * (1 / my_norm);
+	} else {
+		return this;
+	}
+}
+
+bool tsvector::is_valid(){
+	return true;
+}
+
 tsvector tsvector::operator+(const tsvector& param){
 	tsvector result;
 	
@@ -119,14 +136,6 @@ tsvector tsvector::operator*(const mpf_class& scalar){
 	result.z = z*scalar;
 	
 	return result;
-}
-
-mpf_class tsvector::abs(){
-	return sqrt(x*x + y*y + z*z);
-}
-
-mpf_class abs(tsvector input){
-	return input.abs();
 }
 
 #ifdef GRAPHICS

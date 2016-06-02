@@ -1,6 +1,7 @@
 #include "concavesphere.h"
+#include <cmath>
 
-tsvector concavesphere::get_local_normal(tsvector point){
+tsvector concavesphere::get_surface_normal(tsvector point){
 	tsvector local_pos = point - center;
 	local_pos.rotate(rot.x.get_d(), rot.y.get_d(), rot.z.get_d());
 

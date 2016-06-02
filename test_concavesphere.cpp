@@ -25,7 +25,7 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	concavesphere s = concavesphere(tsvector(), 15, 9, tsvector(0, 0, 0), 1.0, 0.0, cnst::c);
+	concavesphere s = concavesphere(tsvector(), 15, 9, tsvector(0, 0, 0));
 
 	// TODO add intersection tests
 

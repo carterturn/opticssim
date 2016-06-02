@@ -1,8 +1,8 @@
 CPP=g++
 
-CORE=tsvector.cpp tsmatrix.cpp constant.cpp
-QED=photon.cpp clock.cpp vector2d.cpp
-OBJECT=object.cpp block.cpp sphere.cpp convexsphere.cpp concavesphere.cpp
+CORE=tsvector.cpp constant.cpp
+QED=photon.cpp
+OBJECT=sphere.cpp convexsphere.cpp concavesphere.cpp
 
 TESTS := $(shell ls test_*.cpp)
 

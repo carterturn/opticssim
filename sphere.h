@@ -4,7 +4,7 @@
 
 class sphere : public object {
 public:
-sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) : radius(radius), height(height), rot(rot), object(center, reflectance, transmittance, lightspeed){}
+	sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot) : radius(radius), height(height), rot(rot){}
 
 	std::vector<tsvector> get_points(mpf_class density);
 
@@ -14,14 +14,14 @@ sphere(tsvector center, mpf_class radius, mpf_class height, tsvector rot, mpf_cl
 
 	mpf_class get_radius();
 
+	virtual photon get_redirected_photon() = 0;
+
 
 #ifdef GRAPHICS
 	void draw();
 #endif
 
 protected:
-	virtual tsvector get_local_normal(tsvector point) = 0;
-
 	tsvector rot;
 
 	mpf_class radius;

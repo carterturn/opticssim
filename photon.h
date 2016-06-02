@@ -1,29 +1,26 @@
 #pragma once
 
-#include "light.h"
-#include "clock.h"
+#include <vector>
+#include "tsvector.h"
+#include "object.h"
 
-class photon : public light, public clock {
+class photon {
 public:
-photon(tsvector origin, tsvector destination, mpf_class wavelength) : destination(destination), light(origin, wavelength), clock(0){
-		path_valid = true;
-	}
-	~photon();
+	photon(tsvector origin, tsvector direction) : origin(origin), destination(direction) {}
+	tsvector get_origin();
+	tsvector get_direction();
 
 	bool is_valid();
 
-	int calculate(std::vector<object*> objects);
-
-	std::vector<photon*> get_paths();
-	photon * get_best_path();
+	// Determines the path of the photon
+	void radiate(std::vector<object*> objects, int depth);
 
 #ifdef GRAPHICS
+	// Draws the photon's path
 	void draw();
 #endif
-	
-protected:
-	std::vector<photon*> next_bundles;
-	bool path_valid;
 
-	tsvector destination;
+protected:
+	tsvector origin;
+	tsvector direction;
 };

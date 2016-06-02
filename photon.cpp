@@ -1,5 +1,4 @@
 #include "photon.h"
-#include "constant.h"
 #include "tsvector.h"
 
 #ifdef GRAPHICS
@@ -8,35 +7,64 @@
 
 using namespace std;
 
-photon::~photon(){
-	for(int i = 0; i < next_bundles.size(); i++){
-		delete next_bundles[i];
+tsvector photon::get_origin(){
+	return origin;
+}
+
+tsvector photon::get_direction(){
+	return direction;
+}
+
+bool source::is_valid(){
+	return origin.is_valid() and direction.is_valid();
+}
+
+void photon::radiate(vector<object*> objects, int depth){
+	if(depth <= 0) {
+		// If the ray will not radiate and hence not collide, draw it
+		this->draw();
+		return;
 	}
-}
-
-bool photon::is_valid(){
-	return path_valid; // path_valid is calculated while we run the photon along its path
-}
-
-int photon::calculate(vector<object*> objects){
 	double shortest_distance = INFINITY;
-	tsvector closest_intersection;
-	tsvector direction = destination - origin;
+	tsvector closest_reflection;
 
 	for(int i = 0; i < objects.size(); i++){
-		double intersection = abs(objects[i]->get_intersection(origin, direction));
-		if(intersection != NULL and abs(intersection) < shortest_distance){
-			shortest_distance = abs(intersection);
-			closest_intersection = intersection;
+		tsvector reflected_photon = objects[i]->get_redirected_photon(this));
+		if(reflected_photon.is_valid()){
+			double distance = (origin - reflected_photon.origin).norm();
+			if(distance < shortest_distance){
+				shortest_distance = distance;
+				closest_reflection = reflected_photon;
+			}
 		}
 	}
-	path_valid = (shortest_distance == INFINITY);
 
-	// What now? What do we do with the resulting intersection?
+	if(shortest_distance != INFINITY){
+		#ifdef GRAPHICS
+		tsvector destination = origin + direction * ray_length;
+		glBegin(GL_LINES);
+
+		glVertex3f(origin.x.get_d(), origin.y.get_d(), origin.z.get_d());
+		glVertex3f(closest_reflection.origin.x.get_d(), closest_reflection.origin.y.get_d(), closest_reflection.origin.z.get_d());
+
+		glEnd();
+		#endif
+		closest_reflection.radiate(depth - 1);
+	} else {
+		#ifdef GRAPHICS
+		this->draw();
+		#endif
+	}
 }
 
 #ifdef GRAPHICS
 void photon::draw(){
+	if (!this->is_valid()) {
+		return;
+	}
+
+	double ray_length = 1000;
+	tsvector destination = origin + direction * ray_length;
 
 	glBegin(GL_LINES);
 
@@ -44,9 +72,5 @@ void photon::draw(){
 	glVertex3f(destination.x.get_d(), destination.y.get_d(), destination.z.get_d());
 
 	glEnd();
-
-	for(int i = 0; i < next_bundles.size(); i++){
-		next_bundles[i]->draw();
-	}
 }
 #endif

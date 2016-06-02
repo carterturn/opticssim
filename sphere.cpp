@@ -9,7 +9,8 @@
 using namespace std;
 
 tsvector sphere::get_surface_normal(tsvector point){
-	return (get_local_normal(point) + point);
+	tsvector shifted = point - center;
+	return tsvector(shifted.x, shifted.y, shifted.z).normalize(); // FIX THIS
 }
 
 #ifdef GRAPHICS
@@ -62,27 +63,36 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 	return points;
 }
 
-tsvector sphere::get_intersection(tsvector point, tsvector direction){
-	tsvector direction_unit = direction * (1.0 / abs(direction));
+tsvector sphere::get_intersection(photon incident_photon){
+	tsvector direction_unit = incident_photon.direction.normalize();
 
 	// Temporary quantities saved for efficiency
-	tsvector c_minus_p = center - point;
+	tsvector c_minus_p = center - incident_photon.origin;
 	double temp1 = direction_unit * c_minus_p;
-	double temp2 = pow(direction_unit * c_minus_p, 2) + pow(radius, 2) - (c_minus_p * c_minus_p);
+	double temp2 = pow(temp1, 2) + pow(radius, 2) - (c_minus_p * c_minus_p);
 
 	if (temp2 < 0) {
-		return NULL;
+		return invalid_tsvector();
 	}
 
 	double temp3 = sqrt(temp2);
 
-	tsvector intersection_1 = point + direction_unit * (temp1 - temp3);
-	tsvector intersection_2 = point + direction_unit * (temp1 + temp3);
+	tsvector intersection_1 = incident_photon.origin + direction_unit * (temp1 - temp3);
+	tsvector intersection_2 = incident_photon.origin + direction_unit * (temp1 + temp3);
 	
-	// Check which intersection is closer to the original point by finding the magnitude of (intersection - point) and comparing
-	if (abs(temp1 - temp2) < abs(temp1 + temp2)) {
+	// Check which intersection is closer to the original point by finding the magnitude of (intersection - origin) and comparing
+	// Also check that we are not going backwards
+	if (temp1 - temp3 < 0 and temp1 + temp3 < 0) {
+		return invalid_tsvector();
+	} else if (temp1 - temp3 < 0) {
+		return intersection_2;
+	} else if (temp1 + temp3 < 0) {
 		return intersection_1;
 	} else {
-		return intersection_2;
+		if (temp1 - temp3 < temp1 + temp3) {
+			return intersection_1;
+		} else {
+			return intersection_2;
+		}
 	}
 }
