@@ -1,4 +1,5 @@
 #include "block.h"
+#include "line.h"
 #include "qed.h"
 #include "constant.h"
 #include <vector>
@@ -16,8 +17,6 @@ int main(int argc, char * argv[]){
 
 	cnst::precision = 1.0_mpf;
 
-	cout << sizeof(photon) << "\n";
-
 #ifdef GRAPHICS
 	glfwInit();
 	GLFWwindow * window = glfwCreateWindow(1000, 1000, "Util Test", NULL, NULL);
@@ -31,31 +30,20 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	qed q = qed(tsvector(-2.5, 0, 0), 532e-9_mpf);
+	qed q = qed(tsvector(-2.5, -2.5, 0), tsvector(-2.5, 2.5, 0), 532e-3_mpf);
 
-	block b = block(tsvector(), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
-	block b2 = block(tsvector(5, 0, 0), tsvector(1, 5, 1), tsvector(0, 0, 0), 0.0, 1.0, cnst::c * 0.5);
-
-	cout << b.inside(tsvector(0.5, 2, 0)) << "\n";
-	cout << b.inside(tsvector(1, 2.5, 0)) << "\n";
-	cout << b.inside(tsvector(0.5, 2.5, 0)) << "\n";
-	cout << b.inside(tsvector(0.5, 0, 0.6)) << "\n";
-	cout << b.inside(tsvector(0, 2.5, 0.5)) << "\n";
-	cout << b.get_points(0.5 ).size() << "\n";
-
-	tsvector target = tsvector(0.5, 0, 0.5);
-	tsvector a = b.get_reflected(target);
-	cout << a.x.get_d() << ", " << a.y.get_d() << ", " << a.z.get_d() << "\n";
+	line l = line(tsvector(2, 2, 0), tsvector(0, 0, 0.57), 5, 0.0, 0.0, cnst::c);
+	line l2 = line(tsvector(2, -3, 0), tsvector(0, 0, -0.57), 5, 0.0, 0.0, cnst::c);
 
 	vector<object*> objects = vector<object*>();
-	objects.push_back(&b);
-	objects.push_back(&b2);
+	objects.push_back(&l);
+	objects.push_back(&l2);
 	
-	cout << q.calculate(objects, 1, 3) << "\n";
-	
+	cout << q.calculate(objects, 0.1, 1) << "\n";
 #ifdef GRAPHICS
 	while(true){
 		glClear(GL_COLOR_BUFFER_BIT);
+		glEnable(GL_BLEND);
 
 		glBegin(GL_LINES);
 
@@ -71,18 +59,19 @@ int main(int argc, char * argv[]){
 
 		glColor3f(0.0f, 1.0f, 0.0f);
 	
-		b.draw();
-		b2.draw();
-
-		glBegin(GL_LINES);
-		glColor3f(0.0f, 0.0f, 1.0f);
-
-		(target + tsvector(0.1, 0, 0)).draw();
-		a.draw();
-
-		glEnd();
+		l.draw();
+		l2.draw();
 
 		q.draw();
+
+		glBegin(GL_POINTS);
+
+		glColor3f(1.0f, 0.0f, 0.0f);
+
+		glVertex3f(-2.5f, 0.0f, 0.0f);
+		glVertex3f(2.5f, 0.0f, 0.0f);
+
+		glEnd();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

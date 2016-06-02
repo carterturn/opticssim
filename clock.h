@@ -18,11 +18,10 @@ vector2d(mpf_class x, mpf_class y) : x(x), y(y){}
 
 	mpf_class abs();
 
-protected:
+	mpf_class get_angle();
+
 	mpf_class x;
 	mpf_class y;
-
-
 };
 
 mpf_class abs(vector2d input);
@@ -33,6 +32,7 @@ clock(mpf_class angle) : angle(angle){}
 
 	static mpf_class get_angle(mpf_class wavelength, mpf_class distance);
 	void turn(mpf_class delta_angle);
+	mpf_class get_angle();
 
 	vector2d get_arrow();
 

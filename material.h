@@ -9,6 +9,14 @@ material(mpf_class reflectance, mpf_class transmittance, mpf_class lightspeed) :
 	mpf_class get_lightspeed(){
 		return lightspeed;
 	}
+
+	mpf_class get_reflectance(){
+		return reflectance;
+	}
+
+	mpf_class get_transmittance(){
+		return transmittance;
+	}
 	
 protected:
 	mpf_class reflectance;

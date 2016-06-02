@@ -3,14 +3,31 @@
 #include "light.h"
 #include "clock.h"
 
+struct object_point{
+	object * obj;
+	tsvector point;
+	vector2d clock;
+};
+
 class photon : public light, public clock {
 public:
-photon(tsvector origin, tsvector destination, mpf_class wavelength, mpf_class probability) : destination(destination), light(origin, wavelength), clock(0), probability(probability){
+photon(tsvector o, tsvector d, mpf_class wavelength) : light(wavelength), clock(0) {
+		origin = new object_point;
+		origin->point = o;
+		origin->obj = NULL;
+		origin->clock = vector2d();
+
+		dest = new object_point;
+		dest->point = d;
+		dest->obj = NULL;
+		dest->clock = vector2d();
+		
 		path_valid = true;
-		origin_object = NULL;
+		prob = 1.0;
 	}
-photon(tsvector origin, object * origin_object, tsvector destination, object * dest_object, mpf_class wavelength, mpf_class probability) : destination(destination), dest_object(dest_object), origin_object(origin_object), light(origin, wavelength), clock(0), probability(probability){
+photon(object_point * origin, object_point * destination, mpf_class wavelength) : origin(origin), dest(destination), light(wavelength), clock(0) {
 		path_valid = true;
+		prob = 1.0;
 	}
 
 	bool is_valid();
@@ -19,10 +36,11 @@ photon(tsvector origin, object * origin_object, tsvector destination, object * d
 
 	std::vector<photon*> get_paths();
 
-	object * get_origin();
-	object * get_dest();
+	object_point * get_origin();
+	object_point * get_dest();
 
-	tsvector get_destination();
+	mpf_class add_probability(mpf_class probability, bool update_clock);
+	mpf_class get_probability();
 
 #ifdef GRAPHICS
 	void draw();
@@ -32,10 +50,8 @@ protected:
 
 	bool path_valid;
 
-	tsvector destination;
+	object_point * origin;
+	object_point * dest;
 
-	object * origin_object;
-	object * dest_object;
-
-	mpf_class probability;
+	mpf_class prob;
 };

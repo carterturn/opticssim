@@ -31,7 +31,3 @@ protected:
 	tsvector center;
 };
 
-struct object_point{
-	object * obj;
-	tsvector point;
-};

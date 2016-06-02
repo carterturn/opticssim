@@ -33,7 +33,7 @@ int main(int argc, char * argv[]){
 	cout << b.inside(tsvector(0.5, 0, 0.6)) << "\n";
 	cout << b.inside(tsvector(0, 2.5, 0.5)) << "\n";
 
-	tsvector target = tsvector(3.5, 0.5, 0);
+	tsvector target = tsvector(3.5, 2.5, 0);
 	tsvector a = b.get_surface_normal(target);
 	cout << a.x.get_d() << ", " << a.y.get_d() << ", " << a.z.get_d() << "\n";
 

@@ -17,19 +17,20 @@ tsvector block::get_local_normal(tsvector point){
 	local_pos.y = local_pos.y / dim.y;
 	local_pos.z = local_pos.z / dim.z;
 
-	if(abs(local_pos.x) > abs(local_pos.z)){
-		if(abs(local_pos.x) > abs(local_pos.y)){
-			if(local_pos.x > 0.25) return tsvector(1, 0, 0);
-			if(local_pos.x < -0.25) return tsvector(-1, 0, 0);
+	tsvector normal_vector = tsvector();
+	if(abs(local_pos.x) >= abs(local_pos.z)){
+		if(abs(local_pos.x) >= abs(local_pos.y)){
+			if(local_pos.x > 0.25) normal_vector = normal_vector + tsvector(1, 0, 0);
+			if(local_pos.x < -0.25) normal_vector = normal_vector + tsvector(-1, 0, 0);
 		}
-		if(abs(local_pos.y) > abs(local_pos.z)){
-			if(local_pos.y > 0.25) return tsvector(0, 1, 0);
-			if(local_pos.y < -0.25) return tsvector(0, -1, 0);
+		if(abs(local_pos.y) >= abs(local_pos.z)){
+			if(local_pos.y > 0.25) normal_vector = normal_vector + tsvector(0, 1, 0);
+			if(local_pos.y < -0.25) normal_vector = normal_vector + tsvector(0, -1, 0);
 		}
 	}
-	if(local_pos.z > 0.25) return tsvector(0, 0, 1);
-	if(local_pos.z < -0.25) return tsvector(0, 0, -1);
-	return tsvector(); // If you are the center, you get a zero vector
+	if(local_pos.z >= 0.25) normal_vector = normal_vector + tsvector(0, 0, 1);
+	if(local_pos.z <= -0.25) normal_vector = normal_vector + tsvector(0, 0, -1);
+	return normal_vector; // If you are the center, you get a zero vector
 }
 
 mpf_class block::get_radius(){

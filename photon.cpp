@@ -14,7 +14,7 @@ bool photon::is_valid(){
 
 int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 	// Normalized vector from the origin to the destination
-	tsvector step_vector = (destination - origin);
+	tsvector step_vector = (dest->point - origin->point);
 	if(step_vector.abs() < cnst::epsilon){
 		path_valid = false;
 		return -1;
@@ -24,34 +24,43 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 	tsvector ray_vector;
 
 	// While the ray_vector is shorter than the distance from destination to origin
-	while(abs(ray_vector) < abs(destination - origin) && path_valid){
+	while(abs(ray_vector) < abs(dest->point - origin->point) && path_valid){
 		ray_vector = ray_vector + step_vector; // Move forward step_vector
 
 		// Make sure we are not inside an object we should not be inside
 		for(int i = 0; i < objects.size(); i++){
-			if(objects[i]->inside(origin + ray_vector) && !(get_origin() == objects[i] && get_dest() == objects[i])){
+			if(objects[i]->inside(origin->point + ray_vector) && !(get_origin()->obj == objects[i] && get_dest()->obj == objects[i])){
 				path_valid = false;
+				prob = 0.0;
 				return 1;
 			}
 		}
 	}
 
-	mpf_class destination_turn = abs(destination - origin) / wavelength;
+	mpf_class destination_turn = abs(dest->point - origin->point) / wavelength;
 	turn(destination_turn);
+	dest->clock = dest->clock + get_arrow()*prob*prob;
 
 	return 0;
 }
 
-object * photon::get_origin(){
-	return origin_object;
+object_point * photon::get_origin(){
+	return origin;
 }
 
-object * photon::get_dest(){
-	return dest_object;
+object_point * photon::get_dest(){
+	return dest;
 }
 
-tsvector photon::get_destination(){
-	return destination;
+mpf_class photon::add_probability(mpf_class probability, bool update_clock){
+	if(update_clock) dest->clock = dest->clock + get_arrow()*prob*prob*-1.0;
+	prob = prob * probability;
+	if(update_clock) dest->clock = dest->clock + get_arrow()*prob*prob;
+	return prob;
+}
+
+mpf_class photon::get_probability(){
+	return prob;
 }
 
 #ifdef GRAPHICS
@@ -59,8 +68,12 @@ void photon::draw(){
 
 	glBegin(GL_LINES);
 
-	glVertex3f(origin.x.get_d(), origin.y.get_d(), origin.z.get_d());
-	glVertex3f(destination.x.get_d(), destination.y.get_d(), destination.z.get_d());
+	glVertex3f(origin->point.x.get_d(), origin->point.y.get_d(), origin->point.z.get_d());
+	glVertex3f(dest->point.x.get_d(), dest->point.y.get_d(), dest->point.z.get_d());
+
+	// glColor3f(1.0f, 1.0f, 1.0f);
+	// glVertex3f(dest->point.x.get_d(), dest->point.y.get_d(), dest->point.z.get_d());
+	// glVertex3f(dest->point.x.get_d() + get_arrow().x.get_d()*get_probability().get_d(), dest->point.y.get_d() + get_arrow().y.get_d()*get_probability().get_d(), dest->point.z.get_d());
 
 	glEnd();
 }

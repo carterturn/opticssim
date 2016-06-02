@@ -41,6 +41,12 @@ mpf_class vector2d::abs(){
 	return sqrt(x*x + y*y);
 }
 
+mpf_class vector2d::get_angle(){
+	if(x == 0) return 0;
+	mpf_class oh_ratio = (y / x);
+	return atan(oh_ratio.get_d());
+}
+
 mpf_class abs(vector2d input){
 	return input.abs();
 }

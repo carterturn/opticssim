@@ -21,3 +21,7 @@ void clock::turn(mpf_class delta_angle){
 vector2d clock::get_arrow(){
 	return vector2d(cos(angle.get_d()), sin(angle.get_d()));
 }
+
+mpf_class clock::get_angle(){
+	return angle;
+}

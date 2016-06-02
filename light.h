@@ -6,7 +6,7 @@
 
 class light {
 public:
-light(tsvector origin, mpf_class wavelength) : origin(origin), wavelength(wavelength){}
+light(mpf_class wavelength) : wavelength(wavelength){}
 
 	// Determines the path of the light
 	virtual int calculate(std::vector<object*> objects, mpf_class density, int depth) = 0;
@@ -21,6 +21,5 @@ light(tsvector origin, mpf_class wavelength) : origin(origin), wavelength(wavele
 #endif
 
 protected:
-	tsvector origin;
 	mpf_class wavelength;
 };
