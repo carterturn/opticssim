@@ -14,7 +14,7 @@ public:
 	bool is_valid();
 
 	// Sends out rays (number determined by intensity)
-	void radiate(std::vector<object> objects, int depth);
+	void radiate(std::vector<object*> objects, int depth);
 
 #ifdef GRAPHICS
 	void draw();
