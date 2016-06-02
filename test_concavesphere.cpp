@@ -1,5 +1,4 @@
 #include "concavespheremirror.h"
-#include "constant.h"
 #include <iostream>
 
 #ifdef GRAPHICS

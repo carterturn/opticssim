@@ -1,5 +1,4 @@
 #include "convexspheremirror.h"
-#include "sphere.h"
 #include <iostream>
 
 #ifdef GRAPHICS
