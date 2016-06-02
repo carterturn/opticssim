@@ -1,5 +1,4 @@
 #include "invalid_tsvector.h"
-#include <cmath>
 
 bool tsvector::is_valid(){
 	return false;
@@ -9,7 +8,7 @@ tsvector tsvector::rotate(double tx, double ty, double tz){
 	return this;
 }
 
-double tsvector::norm(){
+mpf_class tsvector::norm(){
 	return -1;
 }
 

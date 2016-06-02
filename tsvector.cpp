@@ -23,6 +23,8 @@
 #include <GL/glut.h>
 #endif
 
+using namespace std;
+
 // This function rotates a vector. It probably works.
 tsvector tsvector::rotate(double tx, double ty, double tz){
 	
@@ -51,16 +53,16 @@ tsvector tsvector::rotate(double tx, double ty, double tz){
 	return zrot;
 }
 
-double tsvector::norm(){
-	return sqrt(this * this);
+mpf_class tsvector::norm(){
+	return sqrt(*this * *this);
 }
 
 tsvector tsvector::normalize(){
-	double my_norm = this->norm();
+	mpf_class my_norm = this->norm();
 	if (my_norm != 0) {
-		return this * (1 / my_norm);
+		return *this * (1 / my_norm);
 	} else {
-		return this;
+		return *this;
 	}
 }
 

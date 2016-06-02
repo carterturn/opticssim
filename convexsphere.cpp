@@ -7,11 +7,11 @@ tsvector convexsphere::get_surface_normal(tsvector point){
 
 	if(local_pos.x > 0){
 		tsvector radius_vector = local_pos - tsvector(-radius, 0, 0);
-		return (radius_vector * (1.0 / radius_vector.abs())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d());
+		return (radius_vector * (1.0 / radius_vector.norm())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d());
 	}
 	if(local_pos.x < 0){
 		tsvector radius_vector = local_pos - tsvector(radius, 0, 0);
-		return (radius_vector * (1.0 / radius_vector.abs())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d());
+		return (radius_vector * (1.0 / radius_vector.norm())).rotate(-rot.x.get_d(), -rot.y.get_d(), -rot.z.get_d());
 	}
 	return tsvector(); // If you are the center, you get a zero vector
 }

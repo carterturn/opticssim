@@ -39,7 +39,7 @@ public:
 	mpf_class z;
 	
 	tsvector rotate(double tx, double ty, double tz);
-	double norm();
+	mpf_class norm();
 	tsvector normalize();
 	bool is_valid();
 	
@@ -52,15 +52,12 @@ public:
 	tsvector operator* (const float& scalar);
 	tsvector operator* (const mpf_class& scalar);
 
-	mpf_class abs();
 
 #ifdef GRAPHICS
 	void draw(tsvector in);
 	void draw();
 #endif
 };
-
-mpf_class abs(tsvector input);
 
 #ifdef GRAPHICS
 void gldraw(tsvector in);

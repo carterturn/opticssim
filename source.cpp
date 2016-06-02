@@ -11,7 +11,7 @@ tsvector source::get_origin(){
 	return origin;
 }
 
-double source::get_intensity(){
+mpf_class source::get_intensity(){
 	return intensity;
 }
 

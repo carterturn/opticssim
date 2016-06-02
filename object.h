@@ -3,11 +3,12 @@
 #include <vector>
 #include <gmpxx.h>
 #include "tsvector.h"
+#include "photon.h"
 
 
 class object {
 public:
-	object() : {}
+	object(){}
 
 	virtual std::vector<tsvector> get_points(mpf_class density) = 0;
 

@@ -25,13 +25,13 @@ void photon::radiate(vector<object*> objects, int depth){
 		this->draw();
 		return;
 	}
-	double shortest_distance = INFINITY;
+	mpf_class shortest_distance = INFINITY;
 	tsvector closest_reflection;
 
 	for(int i = 0; i < objects.size(); i++){
 		tsvector reflected_photon = objects[i]->get_redirected_photon(this));
 		if(reflected_photon.is_valid()){
-			double distance = (origin - reflected_photon.origin).norm();
+			mpf_class distance = (origin - reflected_photon.origin).norm();
 			if(distance < shortest_distance){
 				shortest_distance = distance;
 				closest_reflection = reflected_photon;
@@ -63,7 +63,7 @@ void photon::draw(){
 		return;
 	}
 
-	double ray_length = 1000;
+	mpf_class ray_length = 1000;
 	tsvector destination = origin + direction * ray_length;
 
 	glBegin(GL_LINES);

@@ -8,6 +8,19 @@
 
 using namespace std;
 
+tsvector sphere::get_center(){
+	return center;
+}
+mpf_class sphere::get_radius(){
+	return radius;
+}
+mpf_class sphere::get_height(){
+	return height;
+}
+tsvector sphere::get_rot(){
+	return rot;
+}
+
 tsvector sphere::get_surface_normal(tsvector point){
 	tsvector shifted = point - center;
 	return tsvector(shifted.x, shifted.y, shifted.z).normalize(); // FIX THIS
@@ -27,19 +40,15 @@ void sphere::draw(){
 }
 #endif
 
-mpf_class sphere::get_radius(){
-	return radius;
-}
-
 vector<tsvector> sphere::get_points(mpf_class spacing){
 	vector<tsvector> points = vector<tsvector>();
 
 	mpf_class spacing_radius_ratio = spacing / radius;
-	double angle_spacing = atan(spacing_radius_ratio.get_d());
+	mpf_class angle_spacing = atan(spacing_radius_ratio.get_d());
 
 	mpf_class height_radius_ratio = (height / 2.0) / radius;
-	for(double i = atan(-1 * height_radius_ratio.get_d()); i < atan(height_radius_ratio.get_d()); i += angle_spacing){
-		for(double j = 0; j < cnst::tau; j += 1.0 / height_radius_ratio.get_d() * (atan(height_radius_ratio.get_d()) - i)){
+	for(mpf_class i = atan(-1 * height_radius_ratio.get_d()); i < atan(height_radius_ratio.get_d()); i += angle_spacing){
+		for(mpf_class j = 0; j < cnst::tau; j += 1.0 / height_radius_ratio.get_d() * (atan(height_radius_ratio.get_d()) - i)){
 			tsvector point = tsvector(radius, 0, 0);
 			point.rotate(0, 0, i);
 			point = point + curve_center_left();
@@ -49,8 +58,8 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 		}
 	}
 
-	for(double i = atan(-1 * height_radius_ratio.get_d()); i < atan(height_radius_ratio.get_d()); i += angle_spacing){
-		for(double j = 0; j < cnst::tau; j += 1.0 / height_radius_ratio.get_d() * (atan(height_radius_ratio.get_d()) - i)){
+	for(mpf_class i = atan(-1 * height_radius_ratio.get_d()); i < atan(height_radius_ratio.get_d()); i += angle_spacing){
+		for(mpf_class j = 0; j < cnst::tau; j += 1.0 / height_radius_ratio.get_d() * (atan(height_radius_ratio.get_d()) - i)){
 			tsvector point = tsvector(-radius, 0, 0);
 			point.rotate(0, 0, i);
 			point = point + curve_center_right();
@@ -68,14 +77,14 @@ tsvector sphere::get_intersection(photon incident_photon){
 
 	// Temporary quantities saved for efficiency
 	tsvector c_minus_p = center - incident_photon.origin;
-	double temp1 = direction_unit * c_minus_p;
-	double temp2 = pow(temp1, 2) + pow(radius, 2) - (c_minus_p * c_minus_p);
+	mpf_class temp1 = direction_unit * c_minus_p;
+	mpf_class temp2 = pow(temp1, 2) + pow(radius, 2) - (c_minus_p * c_minus_p);
 
 	if (temp2 < 0) {
 		return invalid_tsvector();
 	}
 
-	double temp3 = sqrt(temp2);
+	mpf_class temp3 = sqrt(temp2);
 
 	tsvector intersection_1 = incident_photon.origin + direction_unit * (temp1 - temp3);
 	tsvector intersection_2 = incident_photon.origin + direction_unit * (temp1 + temp3);
