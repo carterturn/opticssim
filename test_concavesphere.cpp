@@ -1,4 +1,4 @@
-#include "concavesphere.h"
+#include "concavespheremirror.h"
 #include "constant.h"
 #include <iostream>
 
@@ -11,8 +11,11 @@
 using namespace std;
 
 int main(int argc, char * argv[]){
+	// Seed rand()
+	srand((unsigned)time(NULL));
 
 #ifdef GRAPHICS
+	// Make window
 	glfwInit();
 	GLFWwindow * window = glfwCreateWindow(1000, 1000, "Util Test", NULL, NULL);
 
@@ -25,14 +28,12 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	concavesphere s = concavesphere(tsvector(), 15, 9, tsvector(0, 0, 0));
-
-	// TODO add intersection tests
+	concavespheremirror s = concavespheremirror(tsvector(), 15, 9, tsvector(0, 0, 0));
 
 	tsvector target = tsvector(-0.6, 3, 0);
 	tsvector a = s.get_surface_normal(target);
 	cout << (a - target).x.get_d() << ", " << (a - target).y.get_d() << ", " << (a - target).z.get_d() << "\n";
-	cout << (a - target).abs().get_d() << "\n";
+	cout << (a - target).norm().get_d() << "\n";
 
 #ifdef GRAPHICS
 	while(true){
@@ -69,7 +70,6 @@ int main(int argc, char * argv[]){
 		glBegin(GL_LINES);
 		glColor3f(0.0f, 0.0f, 1.0f);
 
-		//tsvector().draw();
 		(target + tsvector(0.1, 0, 0)).draw();
 		a.draw();
 

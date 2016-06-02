@@ -6,6 +6,7 @@
 #include "photon.h"
 
 
+class photon;
 class object {
 public:
 	object(){}
@@ -14,9 +15,9 @@ public:
 
 	virtual tsvector get_surface_normal(tsvector point) = 0;
 
-	virtual tsvector get_intersection(photon incident_photon) = 0;
+	virtual tsvector get_intersection(photon* incident_photon) = 0;
 
-	virtual photon get_redirected_photon() = 0;
+	virtual photon* get_redirected_photon(photon* incident_photon) = 0;
 
 #ifdef GRAPHICS
 	virtual void draw() = 0;

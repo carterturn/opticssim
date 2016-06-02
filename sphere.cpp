@@ -73,11 +73,11 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 	return points;
 }
 
-tsvector sphere::get_intersection(photon incident_photon){
-	tsvector direction_unit = incident_photon.get_direction().normalize();
+tsvector sphere::get_intersection(photon* incident_photon){
+	tsvector direction_unit = incident_photon->get_direction().normalize();
 
 	// Temporary quantities saved for efficiency
-	tsvector c_minus_p = center - incident_photon.get_origin();
+	tsvector c_minus_p = center - incident_photon->get_origin();
 	mpf_class temp1 = direction_unit * c_minus_p;
 	mpf_class temp2 = pow(temp1.get_d(), 2) + pow(radius.get_d(), 2) - (c_minus_p * c_minus_p);
 
@@ -87,8 +87,8 @@ tsvector sphere::get_intersection(photon incident_photon){
 
 	mpf_class temp3 = sqrt(temp2);
 
-	tsvector intersection_1 = incident_photon.get_origin() + direction_unit * (temp1 - temp3);
-	tsvector intersection_2 = incident_photon.get_origin() + direction_unit * (temp1 + temp3);
+	tsvector intersection_1 = incident_photon->get_origin() + direction_unit * (temp1 - temp3);
+	tsvector intersection_2 = incident_photon->get_origin() + direction_unit * (temp1 + temp3);
 	
 	// Check which intersection is closer to the original point by finding the magnitude of (intersection - origin) and comparing
 	// Also check that we are not going backwards

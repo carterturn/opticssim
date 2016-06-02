@@ -15,8 +15,8 @@ public:
 	std::vector<tsvector> get_points(mpf_class density);
 
 	tsvector get_surface_normal(tsvector point);
-	tsvector get_intersection(photon incident_photon);
-	virtual photon get_redirected_photon() = 0;
+	tsvector get_intersection(photon* incident_photon);
+	virtual photon* get_redirected_photon(photon* incident_photon) = 0;
 
 
 #ifdef GRAPHICS

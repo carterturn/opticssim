@@ -5,5 +5,5 @@
 class mirror : public object{
 public:
 	mirror() : object() {}
-	tsvector get_redirected_photon();
+	photon* get_redirected_photon(photon* incident_photon);
 };
