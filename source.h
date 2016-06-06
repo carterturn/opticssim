@@ -7,8 +7,8 @@
 
 class source {
 public:
-	source(tsvector origin, mpf_class intensity) : origin(origin), intensity(intensity) {}
-	tsvector get_origin();
+	source(tsvector& origin, mpf_class intensity) : origin(origin), intensity(intensity) {}
+	tsvector& get_origin();
 	mpf_class get_intensity();
 
 	bool is_valid();
@@ -21,6 +21,6 @@ public:
 #endif
 
 protected:
-	tsvector origin;
+	tsvector& origin;
 	mpf_class intensity;
 };

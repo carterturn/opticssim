@@ -15,6 +15,14 @@ int main(int argc, char * argv[]){
 	// Seed rand()
 	srand((unsigned)time(NULL));
 
+/*
+	tsvector a = tsvector(3, 2, 1);
+	tsvector b = tsvector(1, 1, 1);
+	tsvector& aref = a;
+	tsvector& bref = b;
+	cout << (a - b).x.get_d() << "\n";
+*/
+	
 #ifdef GRAPHICS
 	// Make window
 	glfwInit();
@@ -34,7 +42,8 @@ int main(int argc, char * argv[]){
 	vector<object*> objects;
 	objects.push_back(&s);
 
-	source src = source(tsvector(50, 0, 0), 10);
+	tsvector t = tsvector(50, 0, 0);
+	source src = source(t, 10);
 
 #ifdef GRAPHICS
 	while(true){
