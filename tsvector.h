@@ -39,9 +39,9 @@ public:
 	mpf_class z;
 	
 	tsvector rotate(double tx, double ty, double tz);
+	std::string to_string();
 	mpf_class norm();
 	tsvector normalize();
-	virtual bool is_valid();
 	
 	tsvector operator+ (const tsvector& param);
 	tsvector operator- (const tsvector& param);

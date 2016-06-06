@@ -7,9 +7,9 @@
 class object;
 class photon {
 public:
-	photon(tsvector& origin, tsvector& direction) : origin(origin), direction(direction) {}
-	tsvector& get_origin();
-	tsvector& get_direction();
+	photon(tsvector* origin, tsvector* direction) : origin(origin), direction(direction) {}
+	tsvector* get_origin();
+	tsvector* get_direction();
 
 	bool is_valid();
 
@@ -22,6 +22,6 @@ public:
 #endif
 
 protected:
-	tsvector& origin;
-	tsvector& direction;
+	tsvector* origin;
+	tsvector* direction;
 };

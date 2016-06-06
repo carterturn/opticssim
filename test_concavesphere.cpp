@@ -1,5 +1,7 @@
 #include "concavespheremirror.h"
 #include "source.h"
+#include "tsvector.h"
+#include "photon.h"
 #include <iostream>
 #include <vector>
 
@@ -37,13 +39,16 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	concavespheremirror s = concavespheremirror(tsvector(), 15, 9, tsvector(0, 0, 0));
+	concavespheremirror s = concavespheremirror(new tsvector(), 15, 9, new tsvector(0, 0, 0));
 	
 	vector<object*> objects;
 	objects.push_back(&s);
 
-	tsvector t = tsvector(50, 0, 0);
+	tsvector* t = new tsvector(50, 0, 0);
 	source src = source(t, 10);
+
+	//source src = source(tsvector(50, 0, 0), 10);
+
 
 #ifdef GRAPHICS
 	while(true){

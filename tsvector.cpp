@@ -53,6 +53,10 @@ tsvector tsvector::rotate(double tx, double ty, double tz){
 	return zrot;
 }
 
+string tsvector::to_string(){
+	return "(" + std::to_string(x.get_d()) + ", " + std::to_string(y.get_d()) + ", " + std::to_string(z.get_d()) + ")";
+}
+
 mpf_class tsvector::norm(){
 	return sqrt(*this * *this);
 }
@@ -64,10 +68,6 @@ tsvector tsvector::normalize(){
 	} else {
 		return *this;
 	}
-}
-
-bool tsvector::is_valid(){
-	return true;
 }
 
 tsvector tsvector::operator+(const tsvector& param){

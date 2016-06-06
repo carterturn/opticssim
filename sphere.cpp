@@ -1,6 +1,5 @@
 #include "sphere.h"
 #include "constant.h"
-#include "invalid_tsvector.h"
 #include <cmath>
 #include <iostream>
 
@@ -75,10 +74,10 @@ vector<tsvector> sphere::get_points(mpf_class spacing){
 }
 
 tsvector sphere::get_intersection(photon* incident_photon){
-	tsvector direction_unit = incident_photon->get_direction().normalize();
+	tsvector direction_unit = incident_photon->get_direction()->normalize();
 
 	// Temporary quantities saved for efficiency
-	tsvector c_minus_p = center - incident_photon->get_origin();
+	tsvector c_minus_p = center - *(incident_photon->get_origin());
 	mpf_class temp1 = direction_unit * c_minus_p;
 	mpf_class temp2 = pow(temp1.get_d(), 2) + pow(radius.get_d(), 2) - (c_minus_p * c_minus_p);
 

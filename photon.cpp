@@ -8,16 +8,12 @@
 
 using namespace std;
 
-tsvector& photon::get_origin(){
+tsvector* photon::get_origin(){
 	return origin;
 }
 
-tsvector& photon::get_direction(){
+tsvector* photon::get_direction(){
 	return direction;
-}
-
-bool photon::is_valid(){
-	return origin.is_valid() and direction.is_valid();
 }
 
 void photon::radiate(vector<object*> objects, int depth){
@@ -35,17 +31,21 @@ void photon::radiate(vector<object*> objects, int depth){
 		return;
 	}
 	mpf_class shortest_distance = 99e99_mpf;
-	invalid_tsvector invalid = invalid_tsvector();
-	photon* closest_reflection = new photon(invalid, invalid);
+	photon* closest_reflection = NULL;
 
 	for(int i = 0; i < objects.size(); i++){
 		photon* reflected_photon = objects[i]->get_redirected_photon(this);
 		if(reflected_photon->is_valid()){
-			mpf_class distance = (origin - reflected_photon->get_origin()).norm();
+			tsvector* temp1 = reflected_photon->get_origin();
+			tsvector* temp2 = this->get_origin();
+			cout << temp1->to_string() << " - " << temp2->cto_string() << "\n";
+			tsvector* distance_vector = new tsvector(*temp2 - *temp1);
+			//tsvector distance_vector = temp4 - temp3;
+			/*mpf_class distance = distance_vector.norm();
 			if(distance < shortest_distance){
 				shortest_distance = distance;
 				closest_reflection = reflected_photon;
-			}
+			}*/
 		}
 	}
 
