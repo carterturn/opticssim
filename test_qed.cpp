@@ -30,7 +30,7 @@ int main(int argc, char * argv[]){
 	glOrtho(-10, 10, -10, 10, -10, 10);
 #endif
 
-	qed q = qed(tsvector(-2.5, -2.5, 0), tsvector(-2.5, 2.5, 0), 532e-3_mpf);
+	qed q = qed(tsvector(-2.5, -2.5, 0), tsvector(-2.5, 2.5, 0), 532e-4_mpf);
 
 	line l = line(tsvector(2, 2, 0), tsvector(0, 0, 0.57), 5, 0.0, 0.0, cnst::c);
 	line l2 = line(tsvector(2, -3, 0), tsvector(0, 0, -0.57), 5, 0.0, 0.0, cnst::c);
@@ -39,11 +39,10 @@ int main(int argc, char * argv[]){
 	objects.push_back(&l);
 	objects.push_back(&l2);
 	
-	cout << q.calculate(objects, 0.1, 1) << "\n";
+	cout << q.calculate(objects, 0.01, 1) << "\n";
 #ifdef GRAPHICS
 	while(true){
 		glClear(GL_COLOR_BUFFER_BIT);
-		glEnable(GL_BLEND);
 
 		glBegin(GL_LINES);
 
@@ -59,12 +58,12 @@ int main(int argc, char * argv[]){
 
 		glColor3f(0.0f, 1.0f, 0.0f);
 	
-		l.draw();
-		l2.draw();
-
 		q.draw();
 
 		glBegin(GL_POINTS);
+
+		l.draw();
+		l2.draw();
 
 		glColor3f(1.0f, 0.0f, 0.0f);
 

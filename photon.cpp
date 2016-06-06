@@ -39,7 +39,7 @@ int photon::calculate(vector<object*> objects, mpf_class density, int depth){
 
 	mpf_class destination_turn = abs(dest->point - origin->point) / wavelength;
 	turn(destination_turn);
-	dest->clock = dest->clock + get_arrow()*prob*prob;
+	dest->clock = dest->clock + get_arrow();
 
 	return 0;
 }
@@ -52,9 +52,15 @@ object_point * photon::get_dest(){
 	return dest;
 }
 
-mpf_class photon::add_probability(mpf_class probability, bool update_clock){
+mpf_class photon::set_probability(mpf_class probability, bool update_clock){
 	if(update_clock) dest->clock = dest->clock + get_arrow()*prob*prob*-1.0;
-	prob = prob * probability;
+	if(parent != NULL){
+		parent->set_probability(parent->get_probability() - prob);
+	}
+	prob = probability;
+	if(parent != NULL){
+		parent->set_probability(parent->get_probability() + prob);
+	}
 	if(update_clock) dest->clock = dest->clock + get_arrow()*prob*prob;
 	return prob;
 }

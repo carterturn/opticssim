@@ -71,20 +71,8 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 				for(int j = 0; j < points.size(); j++){
 					if(!(photons[i]->get_dest()->obj == points[j]->obj)){
 						mpf_class lambda = wavelength;
-/*						if(photons[i]->get_dest()->obj == points[j]->obj){
-							lambda = wavelength * photons[i]->get_dest()->obj->get_lightspeed() / cnst::c;
-						}
-						if(photons[i]->get_dest()->obj != NULL){
-							if(photons[i]->get_dest()->obj->get_reflected(photons[i]->get_dest()->point) * (points[j]->point - photons[i]->get_dest()->point) > 0){
-								base_probability = 0;
-							}
-							if(photons[i]->get_dest()->obj->get_transmitted(photons[i]->get_dest()->point) * (points[j]->point - photons[i]->get_dest()->point) > 0){
-								base_probability = 1;
-							}
-							}*/
-						photon * p = new photon(photons[i]->get_dest(), points[j], lambda);
+						photon * p = new photon(photons[i], points[j], lambda);
 						p->turn(photons[i]->get_angle());
-//						p->add_probability(base_probability, false);
 						photons.push_back(p);
 					
 					}
@@ -117,10 +105,19 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 	}
 
 	for(int i = 0; i < photons.size(); i++){
-		photons[i]->add_probability(((photons[i]->get_arrow()*photons[i]->get_probability()*photons[i]->get_probability())
-					     *photons[i]->get_dest()->clock)/
-					    (photons[i]->get_dest()->clock*photons[i]->get_dest()->clock), false);
+		if(photons[i]->get_dest()->point == destination){
+			photons[i]->set_probability((photons[i]->get_arrow()*photons[i]->get_dest()->clock)/
+						    (photons[i]->get_dest()->clock*photons[i]->get_dest()->clock), false);
+		}
 	}
+
+	for(int i = photons.size() - 1; i > 0; i--){
+		if(photons[i]->get_probability() < 0.05){
+			delete photons[i];
+			photons.erase(photons.begin()+i);
+		}
+	}
+	photons.shrink_to_fit();
 	
 	return 0;
 }
@@ -140,10 +137,10 @@ void qed::draw(){
 			}
 			double prob = probability.get_d();
 			if(prob > 0.05){
-				if(photons[i]->get_wavelength() > 600e-9_mpf){
+				if(photons[i]->get_wavelength() > 600e-3_mpf){
 					glColor3f(prob, 0.0f, 0.0f);
 				}
-				else if(photons[i]->get_wavelength() > 400e-9_mpf){
+				else if(photons[i]->get_wavelength() > 400e-3_mpf){
 					glColor3f(0.0f, prob, 0.0f);
 				}
 				else{
