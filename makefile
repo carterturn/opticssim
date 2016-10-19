@@ -2,11 +2,12 @@ CPP=g++
 
 CORE=tsvector.cpp tsmatrix.cpp constant.cpp
 QED=qed.cpp photon.cpp clock.cpp vector2d.cpp
-OBJECT=object.cpp block.cpp sphere.cpp convexsphere.cpp concavesphere.cpp line.cpp
+OBJECT=line.cpp
 
 TESTS := $(shell ls test_*.cpp)
 
 CFLAGS=--std=c++0x
+GRAPHICS=1
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)

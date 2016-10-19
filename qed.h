@@ -4,8 +4,6 @@
 #include "photon.h"
 #include <vector>
 
-
-
 class qed : public light{
 public:
 qed(tsvector origin, tsvector destination, mpf_class wavelength) : origin(origin), destination(destination), light(wavelength){

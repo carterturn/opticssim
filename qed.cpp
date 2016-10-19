@@ -51,7 +51,7 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 	}
 	
 	for(int i = 0; i < photons.size(); i++){
-		photons[i]->calculate(objects, density, depth);
+		photons[i]->calculate();
 	}
 	
 	for(int i = photons.size()-1; i > 0; i--){
@@ -81,7 +81,7 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 		}
 
 		for(int i = start_idx; i < photons.size(); i++){
-			photons[i]->calculate(objects, density, depth);
+			photons[i]->calculate();
 		}
 
 		for(int i = photons.size() - 1; i > start_idx; i--){

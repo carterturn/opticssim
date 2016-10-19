@@ -39,7 +39,7 @@ photon(photon * parent, object_point * destination, mpf_class wavelength) : pare
 
 	bool is_valid();
 
-	int calculate(std::vector<object*> objects, mpf_class density, int depth);
+	int calculate();
 
 	std::vector<photon*> get_paths();
 

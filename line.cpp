@@ -18,22 +18,6 @@ vector<tsvector> line::get_points(mpf_class density){
 	return points;
 }
 
-tsvector line::get_surface_normal(tsvector point){
-	return tsvector();
-}
-
-tsvector line::get_local_normal(tsvector point){
-	return tsvector();
-}
-
-bool line::inside(tsvector point){
-	return false;
-}
-
-mpf_class line::get_radius(){
-	return length / 2.0;
-}
-
 #ifdef GRAPHICS
 void line::draw(){
 	vector<tsvector> points = get_points(length / 5.0);

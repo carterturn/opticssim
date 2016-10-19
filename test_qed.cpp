@@ -1,4 +1,3 @@
-#include "block.h"
 #include "line.h"
 #include "qed.h"
 #include "constant.h"
@@ -32,8 +31,8 @@ int main(int argc, char * argv[]){
 
 	qed q = qed(tsvector(-2.5, -2.5, 0), tsvector(-2.5, 2.5, 0), 532e-4_mpf);
 
-	line l = line(tsvector(2, 2, 0), tsvector(0, 0, 0.57), 5, 0.0, 0.0, cnst::c);
-	line l2 = line(tsvector(2, -3, 0), tsvector(0, 0, -0.57), 5, 0.0, 0.0, cnst::c);
+	line l = line(tsvector(2, 2, 0), tsvector(0, 0, 0.57), 5);
+	line l2 = line(tsvector(2, -3, 0), tsvector(0, 0, -0.57), 5);
 
 	vector<object*> objects = vector<object*>();
 	objects.push_back(&l);
