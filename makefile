@@ -6,7 +6,7 @@ OBJECT=line.cpp
 
 TESTS := $(shell ls test_*.cpp)
 
-CFLAGS=--std=c++0x
+CFLAGS=--std=c++0x -lpthread
 GRAPHICS=1
 
 UNAME_S := $(shell uname -s)
@@ -14,8 +14,12 @@ ifeq ($(UNAME_S),Linux)
 	INCLUDES=-I/usr/include
 	LINKS=-L/usr/lib64 -lgmp
 	ifeq ($(GRAPHICS),1)
-		LINKS=-L/usr/lib64 -lgmp -lGL -lglfw -lftgl
-		CFLAGS=-DGRAPHICS=1 --std=c++0x
+		LINKS += -L/usr/lib64 -lgmp -lGL -lglfw -lftgl
+		CFLAGS += -DGRAPHICS=1
+	endif
+	ifeq ($(THREAD),1)
+		LINKS += -lpthread
+		CFLAGS += -DTHREAD=1
 	endif
 endif
 ifeq ($(UNAME_S),Darwin)

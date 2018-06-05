@@ -23,21 +23,16 @@ photon(tsvector o, tsvector d, mpf_class wavelength) : light(wavelength), clock(
 		dest->obj = NULL;
 		dest->clock = vector2d();
 		
-		path_valid = true;
 		prob = 0.0;
 	}
 photon(object_point * origin, object_point * destination, mpf_class wavelength) : origin(origin), dest(destination), light(wavelength), clock(0) {
 		parent = NULL;
-		path_valid = true;
 		prob = 0.0;
 	}
 photon(photon * parent, object_point * destination, mpf_class wavelength) : parent(parent), dest(destination), light(wavelength), clock(0) {
 		origin = parent->get_dest();
-		path_valid = true;
 		prob = 0.0;
 	}
-
-	bool is_valid();
 
 	int calculate();
 
@@ -54,8 +49,6 @@ photon(photon * parent, object_point * destination, mpf_class wavelength) : pare
 #endif
 	
 protected:
-
-	bool path_valid;
 
 	object_point * origin;
 	object_point * dest;

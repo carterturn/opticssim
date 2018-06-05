@@ -8,10 +8,6 @@
 
 using namespace std;
 
-bool photon::is_valid(){
-	return path_valid; // path_valid is calculated while we run the photon along its path
-}
-
 int photon::calculate(){
 	mpf_class destination_turn = abs(dest->point - origin->point) / wavelength;
 	turn(destination_turn);

@@ -20,6 +20,7 @@
 #pragma once
 
 #include <gmpxx.h>
+#include <sstream>
 
 class tsvector{
 public:
@@ -52,6 +53,8 @@ public:
 	bool operator== (const tsvector& param);
 
 	mpf_class abs();
+
+	std::string to_string();
 
 #ifdef GRAPHICS
 	void draw(tsvector in);

@@ -133,6 +133,12 @@ mpf_class abs(tsvector input){
 	return input.abs();
 }
 
+std::string tsvector::to_string(){
+	std::stringstream ss;
+	ss << x.get_d() << "," << y.get_d() << "," << z.get_d();
+	return ss.str();
+}
+
 #ifdef GRAPHICS
 
 void tsvector::draw(tsvector in){

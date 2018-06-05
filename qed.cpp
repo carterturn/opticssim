@@ -9,16 +9,16 @@
 using namespace std;
 
 qed::~qed(){
-	for(int i = photons.size()-1; i > 0; i--){
-		delete photons[i];
-		photons.erase(photons.begin()+i);
+	while(photons.size() > 0){
+		delete photons.back();
+		photons.pop_back();
 	}
 }
 
 int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
-	for(int i = photons.size()-1; i > 0; i--){
-		delete photons[i];
-		photons.erase(photons.begin()+i);
+	while(photons.size() > 0){
+		delete photons.back();
+		photons.pop_back();
 	}
 	photons.shrink_to_fit();
 
@@ -54,13 +54,7 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 		photons[i]->calculate();
 	}
 	
-	for(int i = photons.size()-1; i > 0; i--){
-		if(!photons[i]->is_valid()){
-			delete photons[i];
-			photons.erase(photons.begin()+i);
-		}
-	}
-	photons.shrink_to_fit();
+	cout << "Seed photons calculated\n";
 
 	int start_idx = photons.size();
 	int last_start_idx = 0;
@@ -70,8 +64,7 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 			if(!(photons[i]->get_dest()->point == points[0]->point)){// Stop when we arrive
 				for(int j = 0; j < points.size(); j++){
 					if(!(photons[i]->get_dest()->obj == points[j]->obj)){
-						mpf_class lambda = wavelength;
-						photon * p = new photon(photons[i], points[j], lambda);
+						photon * p = new photon(photons[i], points[j], wavelength);
 						p->turn(photons[i]->get_angle());
 						photons.push_back(p);
 					
@@ -84,71 +77,70 @@ int qed::calculate(std::vector<object*> objects, mpf_class density, int depth){
 			photons[i]->calculate();
 		}
 
-		for(int i = photons.size() - 1; i > start_idx; i--){
-			if(!photons[i]->is_valid()){
-				delete photons[i];
-				photons.erase(photons.begin()+i);
-			}
-		}
-
-		photons.shrink_to_fit();
+		cout << d << " jump photons calculated\n";
+		cout << photons.size() << " generated\n";
 
 		last_start_idx = start_idx;
 		start_idx = photons.size();
 
 	}
-
-	cout << "Photon paths generated\n";
-
-	for(int i = 0; i < points.size(); i++){
-		points[i]->clock = points[i]->clock * (1.0 / points[i]->clock.abs());
-	}
-
-	for(int i = 0; i < photons.size(); i++){
-		if(photons[i]->get_dest()->point == destination){
-			photons[i]->set_probability((photons[i]->get_arrow()*photons[i]->get_dest()->clock)/
-						    (photons[i]->get_dest()->clock*photons[i]->get_dest()->clock), false);
+	
+	for(int i = photons.size() - 1; i > last_start_idx; i--){
+		if(!(photons[i]->get_dest()->point == destination)){
+			delete photons[i];
+			photons.erase(photons.begin()+i);
 		}
 	}
 
+	cout << "All photon paths generated\n";
+	cout << photons.size() << " generated\n";
+	
+	for(int i = 0; i < points.size(); i++){
+		if(points[i]->clock.abs() != 0){
+			points[i]->clock = points[i]->clock * (1.0 / points[i]->clock.abs());
+		}
+	}
+
+	mpf_class average_probability = 0;
+	for(int i = 0; i < photons.size(); i++){
+		if(photons[i]->get_dest()->point == destination){
+			photons[i]->set_probability((photons[i]->get_arrow()*photons[i]->get_dest()->clock), false);
+		}
+		average_probability += (photons[i]->get_probability()) / (mpf_class(photons.size()));
+	}
+	cout << average_probability.get_d() << "\n";
+
 	for(int i = photons.size() - 1; i > 0; i--){
-		if(photons[i]->get_probability() < 0.05){
+		if(photons[i]->get_probability() < average_probability){
 			delete photons[i];
 			photons.erase(photons.begin()+i);
 		}
 	}
 	photons.shrink_to_fit();
-	
+
+	cout << photons.size() << " significant\n";
+
+	cout << "Probabilities adjusted\n";
+
 	return 0;
 }
 
 #ifdef GRAPHICS
 void qed::draw(){
+	int cached_photon_size = photons.size();
 	for(int i = 0; i < photons.size(); i++){
-		if(photons[i]->is_valid()){
-			mpf_class probability = photons[i]->get_probability();
-			for(int j = 0; j < photons.size(); j++){
-				if(i != j){
-			 		if(photons[j]->get_origin()->point == photons[i]->get_origin()->point
-					   && photons[j]->get_dest()->point == photons[i]->get_dest()->point){
-						probability += photons[j]->get_probability();
-					}
+		mpf_class probability = photons[i]->get_probability();
+		for(int j = 0; j < photons.size(); j++){
+			if(i != j){
+				if(photons[j]->get_origin()->point == photons[i]->get_origin()->point
+				   && photons[j]->get_dest()->point == photons[i]->get_dest()->point){
+					probability += photons[j]->get_probability();
 				}
-			}
-			double prob = probability.get_d();
-			if(prob > 0.05){
-				if(photons[i]->get_wavelength() > 600e-3_mpf){
-					glColor3f(prob, 0.0f, 0.0f);
-				}
-				else if(photons[i]->get_wavelength() > 400e-3_mpf){
-					glColor3f(0.0f, prob, 0.0f);
-				}
-				else{
-					glColor3f(0.0f, 0.0f, prob);
-				}
-				photons[i]->draw();
 			}
 		}
+		double prob = probability.get_d();
+		glColor3f(0.0f, prob*0.1, 0.0f);
+		photons[i]->draw();
 	}
 }
 #endif

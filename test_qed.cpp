@@ -27,18 +27,20 @@ int main(int argc, char * argv[]){
 
 	glfwMakeContextCurrent(window);
 	glOrtho(-10, 10, -10, 10, -10, 10);
+	// glEnable(GL_BLEND);
+	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 #endif
 
-	qed q = qed(tsvector(-2.5, -2.5, 0), tsvector(-2.5, 2.5, 0), 532e-4_mpf);
+	qed q = qed(tsvector(-4, 0, 0), tsvector(4, 0, 0), 532e-4_mpf);
 
-	line l = line(tsvector(2, 2, 0), tsvector(0, 0, 0.57), 5);
-	line l2 = line(tsvector(2, -3, 0), tsvector(0, 0, -0.57), 5);
+	line l = line(tsvector(1, 2, 0), tsvector(0, 0, 1.57), 3);
+	line l2 = line(tsvector(-1, -2, 0), tsvector(0, 0, 1.57), 3);
 
 	vector<object*> objects = vector<object*>();
 	objects.push_back(&l);
 	objects.push_back(&l2);
-	
-	cout << q.calculate(objects, 0.01, 1) << "\n";
+
+	q.calculate(objects, 0.02, 2);
 #ifdef GRAPHICS
 	while(true){
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -55,11 +57,11 @@ int main(int argc, char * argv[]){
 
 		glEnd();
 
-		glColor3f(0.0f, 1.0f, 0.0f);
 	
 		q.draw();
 
 		glBegin(GL_POINTS);
+		glColor3f(0.0f, 0.0f, 1.0f);
 
 		l.draw();
 		l2.draw();
@@ -73,7 +75,7 @@ int main(int argc, char * argv[]){
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-		usleep(50000);
+		usleep(1000000);
 	}
 
 	glfwTerminate();
